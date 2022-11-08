@@ -9,7 +9,7 @@ class Calendar {
     }
 
     createCalendar(title, user_id) {
-        return db.execute(`INSERT INTO calendar (title, user_id) VALUES ('${user_id}', '${title}')`)
+        return db.execute(`INSERT INTO calendar (title, user_id) VALUES ('${title}', '${user_id}')`)
     }
     shareCalendar(calendar_id, user_id) {
         return db.execute(`INSERT INTO calendar_users (calendar_id, user_id) VALUES ('${calendar_id}','${user_id}')`)
@@ -18,3 +18,5 @@ class Calendar {
         return db.execute(`UPDATE calendar SET title='${title}' WHERE id=${id}`)
     }
 }
+
+module.exports = new Calendar()
