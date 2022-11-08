@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+.LoginDiv {
+    display: flexbox;
+    text-align: center;
+    margin-right: 40%;
+    margin-left: 40%;
+    margin-top: 10%;
+}
+
+.LoginForm {
+    padding-bottom: 30px;
+}
+
+.LoginForm h1 {
+  color: #4717f6;
+  border-bottom: 1px solid white;
+  padding-bottom: 5px;
+}
+
+.LoginForm p {
+    font-size: 18px;
+}
+
+.LoginForm p input{
+    font-size: 18px;
+    color: white;
+    background: transparent;
+    margin-left: 10px;
+    resize: both;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+}
+.LoginForm p input:focus {
+    outline: none;
+}
+
+.LoginForm p input::placeholder{
+	font-family: 'Kanit', sans-serif;
+}
+.linkLogin1 {
+    cursor: pointer;
+}
+
+.linkLogin1:hover {
+    border-bottom: 1px solid white;
+}
+.linkLogin {
+    cursor: pointer;
+    float: left;
+}
+
+.linkLogin:hover {
+    border-bottom: 1px solid white;
+}
+.divSubmit {
+    margin-top: 20px;
+}
+.buttonLogin {
+    margin-top: 10%;
+    display: flex;
+    align-items: center;
+    border: none;
+    float: right;
+    font-family: 'Kanit', sans-serif;
+    padding: 7px 20px;
+    transition: 0.7s ease-out;
+}
+
+.buttonLogin:hover {
+    background-color: #a515d1;
+    color: white;
+}

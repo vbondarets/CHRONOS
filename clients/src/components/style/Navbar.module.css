@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+.h1Navbar {
+  margin-left: 44%;
+  margin-right: 44%;
+  display: flex;
+  align-items: center;
+  color: #4717f6;
+  font-family: 'Konit', sans-serif;
+}
+.ulNavbar {
+  font-weight: 900;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+}
+.liNavbar {
+  display: inline-block;
+}
+.liNavbarUser {
+  display: inline-block;
+  margin-left: 78%;
+}
+.liNavbarAdmin {
+  display: inline-block;
+  margin-left: 72%;
+}
+.liNavbarRegister {
+  display: inline-block;
+  margin-left: 79%;
+}
+.liNavbar button {
+  display: flex;
+  align-items: center;
+  transition: 0.4s ease-in-out;
+}
+.liNavbar button:hover {
+  background-color: red;
+  color: white;
+}
+.aNavbar {
+  cursor: pointer;
+  display:flex;
+  align-items: center;
+  color: #e7dfdd;
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+  transition: 0.5s ease-in-out;
+}
+.aNavbar:hover {
+  background-color: #a515d1;
+  color: white;
+}
+.Logo {
+  width: 100px;
+}

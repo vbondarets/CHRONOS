@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+.RegisterDiv {
+    display: flexbox;
+    text-align: center;
+    margin-right: 40%;
+    margin-left: 40%;
+    margin-top: 10%;
+}
+
+.RegisterForm {
+    padding-bottom: 30px;
+}
+
+.RegisterForm h1 {
+  color: #4717f6;
+  border-bottom: 1px solid white;
+  padding-bottom: 5px;
+}
+
+.RegisterForm p {
+    font-size: 18px;
+}
+
+.RegisterForm p input{
+    font-size: 18px;
+    color: white;
+    background: transparent;
+    margin-left: 10px;
+    resize: both;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+}
+.RegisterForm p input:focus {
+    outline: none;
+}
+
+.RegisterForm p input::placeholder{
+	font-family: 'Kanit', sans-serif;
+}
+
+.linkRegister {
+    cursor: pointer;
+    float: left;
+}
+.linkRegister:hover {
+    border-bottom: 1px solid white;
+}
+.divSubmit {
+    margin-top: 20px;
+}
+.buttonRegister {
+    border: none;
+    float: right;
+    font-family: 'Kanit', sans-serif;
+    padding: 10px 20px;
+    transition: 0.5s ease-out;
+}
+
+.buttonRegister:hover {
+    background-color: #a515d1;
+    color: white;
+}
