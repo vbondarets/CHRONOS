@@ -2,7 +2,9 @@ const db = require('./db')
 
 class Calendar {
     getCalendar(user_id) {
-        return db.execute(`SELECT * FROM calendar WHERE user_id=${user_id};`)
+        return db.execute(`SELECT * FROM calendar_users 
+                            LEFT JOIN calendar on calendar_users.calendar_id = calendar.id 
+                            WHERE calendar_users.user_id=${user_id};`)
     }
     getAllCalendar() {
         return db.execute(`SELECT * FROM calendar;`)
