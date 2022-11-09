@@ -11,7 +11,7 @@ class Calendar {
     }
 
     createCalendar(title, user_id) {
-        return db.execute(`INSERT INTO calendar (title, user_id) VALUES ('${title}', '${user_id}')`)
+        return db.execute(`INSERT INTO calendar (title, author_id) VALUES ('${title}', '${user_id}')`)
     }
     shareCalendar(calendar_id, user_id) {
         return db.execute(`INSERT INTO calendar_users (calendar_id, user_id) VALUES ('${calendar_id}','${user_id}')`)

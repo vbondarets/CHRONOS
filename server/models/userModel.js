@@ -16,7 +16,15 @@ class User {
         return db.execute(`SELECT * FROM users WHERE login="${login}" AND email="${email};"`)
     }
     getUserbyid(id) {
-        return db.execute(`SELECT * FROM users WHERE id=${id};`)
+        return db.execute(`SELECT * FROM users WHERE id=${id};`).then(resp => {
+            if (resp[0].length > 0) {
+                console.log(resp[0]);
+                return resp[0]
+            }
+            else {
+                return 'NOT FOUND'
+            }
+        })
     }
     getUserbyLogin(login) {
         return db.execute(`SELECT * FROM users WHERE login="${login}";`)

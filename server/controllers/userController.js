@@ -55,7 +55,7 @@ class UserController {
         console.log(user_id);
         const user = new User()
         user.getUserbyid(user_id).then(response=> {
-            if(response[0].length>0) {
+            if(response!='NOT FOUND') {
                 return res.status(200).json({
                     message:"Take your user",
                     result:response[0]

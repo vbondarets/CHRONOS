@@ -56,7 +56,7 @@ class CalendarController {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
-        await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id} AND user_id=${decoded_id}`).then(resp => {
+        await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id} AND author_id=${decoded_id}`).then(resp => {
             if (resp[0].length > 0) {
                 db.execute(`SELECT * FROM calendar_users WHERE calendar_id = ${calendar_id} AND user_id=${user_id}`).then(resp => {
                     if (resp[0].length > 0) {
