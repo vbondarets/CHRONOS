@@ -95,6 +95,35 @@ class CalendarController {
             }
         })
     }
+    async deleteUserFromCalendar(req,res){
+        const {user_id} = req.params
+        const {calendar_id} = req.body
+        if (!user_id) {
+            return res.status(404).json({message:"Something went wrong"})
+        }
+        await Calendar.getCalendarAuthor(calendar_id).then(resp => {
+            if(resp[0].length > 0){
+                const author_id = resp[0];
+                if(user_id!== author_id){
+                    Calendar.deleteUserFromCalendar(user_id).then(result=>{
+                        if (result[0].length > 0) {
+                            return res.status(200).json({message:"User deleted", result: result[0]})
+                        
+                        }
+                        else {
+                            return res.status(500).json({message:"Something went wrong"})
+                        }
+                    })
+                }
+                else {
+                    return res.status(403).json({message:"Can't delete author from calendar"})
+                }
+            }
+            else {
+                return res.status(404).json({message:"Can't found author"})
+            }
+        })
+    }
 }
 
 module.exports = new CalendarController() 

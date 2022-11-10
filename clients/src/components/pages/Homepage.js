@@ -129,10 +129,11 @@ const HomePage = () => {
      <>
         <Calendar
           events={events}
-          defaultDate={moment().toDate()}
+        //   defaultDate={moment().toDate()}
           localizer={localizer}
           startAccessor="start"
           endAccessor="end"
+          style={{height: 600}}
         />
      </>
       )

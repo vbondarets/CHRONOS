@@ -19,6 +19,12 @@ class Calendar {
     updateCalendar(title, id) {
         return db.execute(`UPDATE calendar SET title='${title}' WHERE id=${id}`)
     }
+    getCalendarAuthor(id) {
+        return db.execute(`SELECT author_id FROM calendar where id=${id}`)
+    }
+    deleteUserFromCalendar(id){
+        return db.execute(`DELETE FROM calendar_users where user_id=${id}`)
+    }
 }
 
 module.exports = new Calendar()
