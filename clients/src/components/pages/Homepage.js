@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import dayjs from 'dayjs';
 import moment from 'moment'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import '../style/CalendarStyle.css';
+
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 
@@ -17,8 +18,8 @@ const HomePage = () => {
           id: 0,
           title: 'All Day Event very long title',
           allDay: true,
-          start: new Date(2015, 3, 0),
-          end: new Date(2015, 3, 1),
+          start: new Date(),
+          end: new Date(),
       },
       {
           id: 1,
