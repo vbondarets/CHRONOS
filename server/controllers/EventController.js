@@ -47,7 +47,7 @@ class Event_Controller {
         if (!title || !description || !type || !color || !time) {
             return res.status(404).json({message: "Fill all required fields"})
         }
-        await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id} AND author_id = ${decoded_id}`).then( resp => {
+        await db.execute(`SELECT * FROM calendar_users WHERE calendar_id = ${calendar_id} AND user_id = ${decoded_id}`).then( resp => {
             if (resp[0].length === 0) {
                 return res.status(404).json({message:"It`s not your calendar"})
             }
