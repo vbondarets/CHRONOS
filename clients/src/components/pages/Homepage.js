@@ -1,142 +1,75 @@
-import React, { useState } from "react";
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
+import React, { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import moment from 'moment'
-import '../style/CalendarStyle.css';
-
-
-const localizer = momentLocalizer(moment) // or globalizeLocalizer
-
+import { useDispatch, useSelector } from "react-redux";
+import { getAllEventByCalendar } from "../../action/EventAction";
 
 const HomePage = () => {
-    const [date, setDate] = useState(new Date())
-    console.log(localizer);
-    const now = new Date();
+    const event = useSelector(state => state.Event)
 
-    const events = [
-      {
-          id: 0,
-          title: 'All Day Event very long title',
-          allDay: true,
-          start: new Date(),
-          end: new Date(),
-      },
-      {
-          id: 1,
-          title: 'Long Event',
-          start: new Date(2015, 3, 7),
-          end: new Date(2015, 3, 10),
-      },
+    moment.updateLocale(moment.locale(),{week:{dow:1}})
+    const [now, setNow] = useState(moment())
+    const [months, setMonths] = useState(now.month())
+    const [year, setYear] = useState(now.year())
 
-      {
-          id: 2,
-          title: 'DTS STARTS',
-          start: new Date(2016, 2, 13, 0, 0, 0),
-          end: new Date(2016, 2, 20, 0, 0, 0),
-      },
+    const now_for_lastday = now.clone()
+    const now_for_startday = now.clone()
 
-      {
-          id: 3,
-          title: 'DTS ENDS',
-          start: new Date(2016, 10, 6, 0, 0, 0),
-          end: new Date(2016, 10, 13, 0, 0, 0),
-      },
+    const lastday = now_for_lastday.endOf('month').endOf('week')
+    const startday = now_for_startday.startOf('month').startOf('week')
+    let day = startday.clone()
 
-      {
-          id: 4,
-          title: 'Some Event',
-          start: new Date(2015, 3, 9, 0, 0, 0),
-          end: new Date(2015, 3, 10, 0, 0, 0),
-      },
-      {
-          id: 5,
-          title: 'Conference',
-          start: new Date(2015, 3, 11),
-          end: new Date(2015, 3, 13),
-          desc: 'Big conference for important people',
-      },
-      {
-          id: 6,
-          title: 'Meeting',
-          start: new Date(2015, 3, 12, 10, 30, 0, 0),
-          end: new Date(2015, 3, 12, 12, 30, 0, 0),
-          desc: 'Pre-meeting meeting, to prepare for the meeting',
-      },
-      {
-          id: 7,
-          title: 'Lunch',
-          start: new Date(2015, 3, 12, 12, 0, 0, 0),
-          end: new Date(2015, 3, 12, 13, 0, 0, 0),
-          desc: 'Power lunch',
-      },
-      {
-          id: 8,
-          title: 'Meeting',
-          start: new Date(2015, 3, 12, 14, 0, 0, 0),
-          end: new Date(2015, 3, 12, 15, 0, 0, 0),
-      },
-      {
-          id: 9,
-          title: 'Happy Hour',
-          start: new Date(2015, 3, 12, 17, 0, 0, 0),
-          end: new Date(2015, 3, 12, 17, 30, 0, 0),
-          desc: 'Most important meal of the day',
-      },
-      {
-          id: 10,
-          title: 'Dinner',
-          start: new Date(2015, 3, 12, 20, 0, 0, 0),
-          end: new Date(2015, 3, 12, 21, 0, 0, 0),
-      },
-      {
-          id: 11,
-          title: 'Birthday Party',
-          start: new Date(2015, 3, 13, 7, 0, 0),
-          end: new Date(2015, 3, 13, 10, 30, 0),
-      },
-      {
-          id: 12,
-          title: 'Late Night Event',
-          start: new Date(2015, 3, 17, 19, 30, 0),
-          end: new Date(2015, 3, 18, 2, 0, 0),
-      },
-      {
-          id: 12.5,
-          title: 'Late Same Night Event',
-          start: new Date(2015, 3, 17, 19, 30, 0),
-          end: new Date(2015, 3, 17, 23, 30, 0),
-      },
-      {
-          id: 13,
-          title: 'Multi-day Event',
-          start: new Date(2015, 3, 20, 19, 30, 0),
-          end: new Date(2015, 3, 22, 2, 0, 0),
-      },
-      {
-          id: 14,
-          title: 'Today',
-          start: new Date(new Date().setHours(new Date().getHours() - 3)),
-          end: new Date(new Date().setHours(new Date().getHours() + 3)),
-      },
-      {
-          id: 15,
-          title: 'Point in Time Event',
-          start: now,
-          end: now,
-      },
-    ]
+    const calendar = []
+    const value_of_calendar = []
+
+    while (!day.isAfter(lastday)) {
+        calendar.push(day.date())
+        value_of_calendar.push(day.format('YYYY-MM-DD'))
+        day.add(1,'day')
+    }
+
+    const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December']
+
+    const dispatch = useDispatch()
+    useEffect ( () => {
+        dispatch(getAllEventByCalendar(2))
+    }, [dispatch])
+    let AllEvents = []
+    AllEvents = event.events
+    if (AllEvents === undefined) {
+        AllEvents = []
+    }
+    console.log(AllEvents);
     return (
-     <>
-        <Calendar
-          events={events}
-        //   defaultDate={moment().toDate()}
-          localizer={localizer}
-          startAccessor="start"
-          endAccessor="end"
-          style={{height: 600}}
-        />
-     </>
-      )
+        <>
+            <div>
+                <p><button onClick={ () => {
+                        setNow(now.subtract(1,'month'))
+                        setYear(now.year())
+                        setMonths(now.month())
+                    }}>
+                    Prev</button>{month[months] +year} 
+                    <button onClick={ () => {
+                        setNow(now.add(1,'month'))
+                        setYear(now.year())
+                        setMonths(now.month())
+                    }}>Next</button> </p>
+                    <ul>
+                        
+                        {calendar.map( (call,index) => {
+                            
+                            return(<li value = {value_of_calendar[index]} key={index}>{call}
+                                {AllEvents.map(event => {
+                                    if (event.time.substring(0,10) === value_of_calendar[index]) {
+                                        return (<ul key={event.id}><li>{event.title}</li></ul>)
+                                    }
+                                })}
+                            </li>)
+                        })}
+                    </ul>
+            </div>  
+        </>
+    )
 }
 
 export default HomePage;

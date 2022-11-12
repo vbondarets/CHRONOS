@@ -137,22 +137,32 @@ class Event_Controller {
         const {token} = req.params
         const {calendar_id} = req.body
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+
+        const tokenn = req.headers.authorization.split(' ')[1];
+        const decodedd = jwt.verify(tokenn, process.env.SECRETKEY || 'KHPI')
+        
+        console.log(decodedd);
         console.log(decoded);
-        await Event.checkEvent(decoded.event_id, decoded.author_id).then( resp => {
-            if (resp === "Something went wrong") {
-                return res.status(404).json({message:"It's not your event"})
-            }
-            else {
-                Event.shareEventForuser(decoded.event_id, decoded.direction_id, calendar_id).then( resp => {
-                    if (resp[0].affectedRows > 0) {
-                        return res.status(200).json({message:"Event was shared", result:resp[0]})
-                    }
-                    else {
-                        return res.status(404).json({message:"Something went wrong"})
-                    }
-                })
-            }
-        })
+        if (decoded.direction_id.toString() == decodedd.id.toString()) {
+            await Event.checkEvent(decoded.event_id, decoded.author_id).then( resp => {
+                if (resp === "Something went wrong") {
+                    return res.status(404).json({message:"It's not your event"})
+                }
+                else {
+                    Event.shareEventForuser(decoded.event_id, decoded.direction_id, calendar_id).then( resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Event was shared", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({message:"Something went wrong"})
+                        }
+                    })
+                }
+            })
+        }
+        else {
+            return res.status(404).json({message:"Its not for you"})
+        }
     }
 
     async UpdateEvent(req,res) {
@@ -232,7 +242,14 @@ class Event_Controller {
                         })
                     }
                     else {
-                        return res.status(404).json({message:"Something went wrong"})
+                        db.execute(`DELETE FROM event WHERE author_id = ${decoded_id} AND id=${event_id} AND calendar_id = ${calendar_id} `).then(resp => {
+                            if (resp[0].affectedRows > 0) {
+                                return res.status(200).json({message:"Event was deleted"})
+                            }
+                            else {
+                                return res.status(404).json({message:"Something went wrong"})
+                            }
+                        })
                     }
                 })
             }
@@ -240,6 +257,42 @@ class Event_Controller {
                 return res.status(404).json({message:"Its not your event"})
             }
         })
+    }
+
+    async DeleteUserFromSharingEvent(req, res) {
+        const {user_id, event_id} = req.params
+
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+
+        if(decoded_id == user_id) {
+            return res.status(404).json({message:"You cant delete access from yours event"})
+        }
+        else {
+            await db.execute(`SELECT * FROM event WHERE id = ${event_id} AND author_id = ${decoded_id}`).then( resp => {
+                if (resp[0].length > 0 ) {
+                    db.execute(`SELECT * FROM event_users WHERE user_id = ${user_id} AND event_id = ${event_id}`).then( resp => {
+                        if (resp[0].length > 0) {
+                            Event.deleteUserFromEvent(user_id, event_id).then( resp => {
+                                if (resp[0].affectedRows > 0) {
+                                    return res.status(200).json({message:"You delete user", result: resp[0]})
+                                }
+                                else {
+                                    return res.status(404).json({message:"Something went wrong"})
+                                }
+                            })
+                        }
+                        else {
+                            return res.status(404).json({message:"You dont share this event with this user"})
+                        }
+                    })
+                }
+                else {
+                    return res.status(404).json({message:"Its not your event"})
+                }
+            })
+        }
     }
 }
 

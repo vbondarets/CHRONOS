@@ -42,6 +42,9 @@ class EventModel {
     updateEventType(type, event_id) {
         return db.execute(`UPDATE event SET type='${type}' WHERE id=${event_id}`)
     }
+    deleteUserFromEvent(user_id, event_id) {
+        return db.execute(`DELETE FROM event_users WHERE user_id = ${user_id} AND event_id = ${event_id}` )
+    }
 }
 
 module.exports = new EventModel()
