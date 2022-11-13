@@ -7,6 +7,7 @@ const authcheck = require('../midleware/userAuth')
 router.get('/', CalendarController.getAllCalendars)
 router.post('/',CalendarController.createCalendar)
 router.get('/:user_id', CalendarController.getCalendarById)
+router.get('/share/:token',CalendarController.shareCalendarToUser)
 router.post('/share/:calendar_id',CalendarController.shareCalendar)
 
 

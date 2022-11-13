@@ -17,7 +17,7 @@ function jwtGenerator(id, login, email, role){
 
 class Authentication {
     async register(req,res) {
-        console.log("LOX");
+        // console.log("LOX");
         const Check = new check()
         const {login, email, full_name, password} = req.body
         if (!login || !email || !full_name || !password) {
@@ -30,7 +30,7 @@ class Authentication {
         const user = new User()
         if (!true_email||!true_full||!true_login) {return res.status(404).json({message:"Fill required fields in right way"})}
         else {
-            console.log("L");
+            // console.log("L");
             user.getAllUsers().then(resp=> {
                 if(resp[0].length===0) {
                     const hashedPassword = bcrypt.hash(password.toString(),10)
@@ -44,7 +44,7 @@ class Authentication {
                     }).catch(err=>{return res.status(404).json({Eror:err.message})})
                 }
                 else {
-                    db.execute(`INSERT INTO users (login,email,full_name,password,role,photo) VALUES ('${login}','${email}','${full_name}','${hashed}','user','user.png');` ).then(resp=> {
+                    db.execute(`INSERT INTO users (login, email, full_name, password, role, photo) VALUES ('${login}','${email}','${full_name}','${hashed}','user','user.png');` ).then(resp=> {
                             if(resp[0].affectedRows>0) {
                                 const token = jwtGenerator(resp[0].insertId, login, email, 'user');
                                 return res.status(200).json({message:"You were succesfully registered",result:token})}

@@ -43,20 +43,32 @@ const HomePage = () => {
     return (
         <>
             <div>
-                <p><button onClick={ () => {
+                <p>
+                    <button onClick={ () => {
                         setNow(now.subtract(1,'month'))
                         setYear(now.year())
                         setMonths(now.month())
                     }}>
-                    Prev</button>{month[months] +year} 
+                        Prev
+                    </button>
+                    {month[months] +year} 
                     <button onClick={ () => {
                         setNow(now.add(1,'month'))
                         setYear(now.year())
                         setMonths(now.month())
-                    }}>Next</button> </p>
+                    }}>
+                        Next
+                    </button> 
+                </p>
                     <ul>
-                        
                         {calendar.map( (call,index) => {
+                            // <li value = {value_of_calendar[index]} key={index}>{call}
+                            //     {AllEvents.map(event => {
+                            //         if (event.time.substring(0,10) === value_of_calendar[index]) {
+                            //             return (<ul key={event.id}><li>{event.title}</li></ul>)
+                            //         }
+                            //     })}
+                            // </li>
                             
                             return(<li value = {value_of_calendar[index]} key={index}>{call}
                                 {AllEvents.map(event => {
