@@ -41,46 +41,21 @@ const Navbar= () => {
     return (
         isAuth ? 
         <>
-            {role === 'admin' ? 
-                <>
-                    <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
-                    <div >
-                        <ul className={style.ulNavbar}> 
-                            <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home<HomeIcon /></a></li>
-                            <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/users")}}>Users</a></li>
-                            <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/categories")}}>Categories</a></li>
-                            <li className={style.liNavbarAdmin}><a className={style.aNavbar} onClick={() => {
-                                                    history.push(`/user/${user_id}`)}}>{decode.login
-                                                         }</a>
-                            </li>
-                            <li className={style.liNavbar}><Button onClick={()=>{Cookies.remove('token')
+            <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
+                <div >
+                    <ul className={style.ulNavbar}> 
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home<HomeIcon /></a></li>
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar</a></li>
+                        <li className={style.liNavbarUser}><a className={style.aNavbar} onClick={() => {
+                                                                history.push(`/user/${user_id}`)
+                                                            }}>
+                                                            {decode.login}
+                                                      </a>
+                        </li>
+                        <li className={style.liNavbar}><Button onClick={()=>{Cookies.remove('token')
                                                                                 setAuth(false)}}>Logout <LogoutIcon/></Button></li>
-
-                        </ul>
-                        
-                    </div>
-                </>
-                :
-                <>
-                    <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
-                    <div >
-                        <ul className={style.ulNavbar}> 
-                            <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home<HomeIcon /></a></li>
-                            <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/users")}}>Users</a></li>
-                            <li className={style.liNavbarUser}><a className={style.aNavbar} onClick={() => {
-                                                                    history.push(`/user/${user_id}`)
-                                                                }}>
-                                                                {decode.login}
-                                                          </a>
-                            </li>
-                            <li className={style.liNavbar}><Button onClick={()=>{Cookies.remove('token')
-                                                                                setAuth(false)}}>Logout <LogoutIcon/></Button></li>
-
-                        </ul>
-                        
-                    </div>
-                </>
-            }   
+                    </ul>        
+                </div>
         </>
         :
         <>
@@ -88,7 +63,7 @@ const Navbar= () => {
             <div>
                 <ul className={style.ulNavbar}>
                     <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home <HomeIcon /></a></li>
-                    <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/register")}}>Users</a></li>
+                    <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar</a></li>
                     <li className={style.liNavbarRegister}><a className={style.aNavbar} onClick={()=>{history.push("/register")}}>Register</a></li>
                     <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/login")}}>Login</a></li>
                 </ul>

@@ -16,6 +16,7 @@ class CalendarController {
             }
         }).catch(err => { return res.status(404).json({ Eror: err.message }) })
     }
+
     async createCalendar(req, res) {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
@@ -149,18 +150,28 @@ class CalendarController {
 
     async getCalendarById(req, res) {
         const { user_id } = req.params
+
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+
+        if (user_id != decoded_id) {
+            return res.status(404).json({message:'It`s not your calendars'})
+        }
         if (!user_id) {
             return res.status(404).json({ message: "Something went wrong" })
         }
-        await Calendar.getCalendar(user_id).then(resp => {
-            if (resp[0].length > 0) {
-                return res.status(200).json({ message: "Take all calendars", result: resp[0] })
-
-            }
-            else {
-                return res.status(404).json({ message: "There are no calendars" })
-            }
-        })
+        else {
+            await Calendar.getCalendar(user_id).then(resp => {
+                if (resp[0].length > 0) {
+                    return res.status(200).json({ message: "Take all calendars", result: resp[0] })
+    
+                }
+                else {
+                    return res.status(404).json({ message: "There are no calendars" })
+                }
+            })
+        }
     }
     async deleteUserFromCalendar(req, res) {
         const { user_id } = req.params

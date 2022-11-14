@@ -1,3 +1,5 @@
+import AllCalendarsPage from "../components/pages/CalendarComponents/AllCalendarsPage";
+import EventPage from "../components/pages/CalendarComponents/EventFromCalendars";
 import HomePage from "../components/pages/Homepage";
 import LoginPage from "../components/pages/LoginPage";
 import RegisterPage from "../components/pages/RegisterPage";
@@ -19,6 +21,12 @@ export const route = [
     },
     {
         path: '/', component:HomePage, exact:true
+    },
+    {
+        path:'/calendar', component:AllCalendarsPage, exact:true
+    },
+    {
+        path:'/calendar/:calendar_id', component:EventPage, exact:true
     }
 ]
 

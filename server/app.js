@@ -36,7 +36,6 @@ app.use(require('./routers/index'))
 app.use(adminBro.options.rootPath, adminRouter);
 const start = async()=>{
     try {
-
         app.listen(port,host,()=>{
             console.log(`Server running at http://${host}:${port}`)
         }

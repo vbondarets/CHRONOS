@@ -9,4 +9,5 @@ const authIntreceptors = config => {
     return config
 }
 api.interceptors.request.use(authIntreceptors)
+
 export const getEvents = (calendar_id) => api.get(`http://127.0.0.1:3001/api/event/${calendar_id}`) 
