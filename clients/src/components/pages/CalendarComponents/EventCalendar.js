@@ -1,5 +1,8 @@
 import React from "react";
+import { useState } from "react";
+import EventForm from "../../forms/EventForm";
 import style from '../../style/CalendarStyle.module.css'
+import MyModal from "../../UI/MyModal/MyModal";
 
 const EventComponent = (props) => {
     const {now, AllEvents} = props
@@ -14,6 +17,8 @@ const EventComponent = (props) => {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const calendar = []
     const value_of_calendar = []
+    const [modal, setModal] = useState(false);
+    const [date, setDate] = useState(false);
 
     while (!day.isAfter(lastday)) {
         calendar.push(day.date())
@@ -23,6 +28,11 @@ const EventComponent = (props) => {
     const dayNow = now.format('YYYY-MM-DD')
     return (
         <>
+            <MyModal visible={modal} setVisible={setModal}>
+                <EventForm 
+                    date={date}
+                />
+            </MyModal>
             <ul>
                 {days.map(index => {
                     return (
@@ -31,7 +41,15 @@ const EventComponent = (props) => {
                 })} 
                 {calendar.map( (call,index) => {        
                     return(
-                        <li value = {value_of_calendar[index]} key={index}>{value_of_calendar[index] === dayNow ? <b style={{
+                        <li 
+                            value = {value_of_calendar[index]} 
+                            key={index}
+                            onClick={ e => {
+                                console.log(value_of_calendar[index]);
+                                setDate(value_of_calendar[index]);
+                                setModal(true);
+                            }}
+                        >{value_of_calendar[index] === dayNow ? <b style={{
                            color:'red'
                         }}>{call}</b> : <>{call}</>}
                             {AllEvents.map(event => {
