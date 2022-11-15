@@ -4,6 +4,7 @@ import MyButton from '../UI/button/MyButton'
 import MyInput from '../UI/input/MyInput'
 import MySelect from '../UI/select/MySelect';
 import moment from 'moment';
+import { SketchPicker, ChromePicker } from 'react-color';
 
 const EventForm = ({ date }) => {
     const [title, setTitle] = useState('');
@@ -25,9 +26,11 @@ const EventForm = ({ date }) => {
             time: date + " " + time
         }
         console.log(body);
-        
     }
-
+    const handleChangeComplete = (color, event) => {
+        // this.setState({ background: color.hex });
+        setColor(color.hex);
+    };
     return (
         <form>
             <h1>Event</h1>
@@ -57,6 +60,10 @@ const EventForm = ({ date }) => {
                 type="text"
                 placeholder="Event color"
             />
+            <ChromePicker
+                color = {color}
+                onChangeComplete={ handleChangeComplete }
+            />
             <MyInput
                 value={time}
                 onChange={e => setTime(e.target.value)}
@@ -65,6 +72,7 @@ const EventForm = ({ date }) => {
             />
             <h2>{errorMessage}</h2>
             <MyButton onClick={(e) => sendReq(e)}>{"Create Event"}</MyButton>
+            <button style={{color: color}}>test</button>
         </form>
     )
 }
