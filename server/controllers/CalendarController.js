@@ -81,29 +81,30 @@ class CalendarController {
                         );
                         db.execute(`SELECT email FROM users WHERE id=${user_id}`).then(result => {
                             const email = result[0][0].email;
-                            const transporter = message.createTransport({
-                                service: 'hotmail',
-                                // host: 'smtp.gmail.com',
-                                // port: 465,
-                                // secure: true,
+                            
+                            var transporter = message.createTransport({
+                                service: 'gmail',
                                 auth: {
-                                    user: 'vbondarets.chronos@hotmail.com',
-                                    pass: 'Securepass'
+                                    user: 'eestfoo@gmail.com',
+                                    pass: 'dxwcxeojfjkoyjuz'
                                 }
                             });
-                            const mailOptions = {
+                            
+                            var mailOptions = {
                                 from: 'chronos.ucode',
                                 to: email,
                                 subject: 'Calendar sharing',
                                 text: `Somebody share calendar for u\nClick on this link: "http://localhost:3000/share/${token}"`
                             };
-                            transporter.sendMail(mailOptions, function (error, info) {
+                            
+                            transporter.sendMail(mailOptions, function(error, info){
                                 if (error) {
-                                    console.log(error);
+                                console.log(error);
                                 } else {
                                     console.log('Email sent: ' + info.response);
+                                    return res.status(200).json({message:"Confiramtion was sent"})
                                 }
-                            });
+                            }); 
                             res.status(200).json({ message: "Email was sent", share_token: token })
 
                         })

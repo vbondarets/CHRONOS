@@ -4,6 +4,7 @@ import HomePage from "../components/pages/Homepage";
 import LoginPage from "../components/pages/LoginPage";
 import RegisterPage from "../components/pages/RegisterPage";
 import ResetPassword from "../components/pages/ResetPassword";
+import SubmitSharingCalendar from "../components/pages/Sharing/SubmitCalendarSharing";
 import TokenReset from "../components/pages/TokenConfirm";
 
 export const route = [
@@ -27,6 +28,9 @@ export const route = [
     },
     {
         path:'/calendar/:calendar_id', component:EventPage, exact:true
+    },
+    {
+        path:'/share/:token', component:SubmitSharingCalendar, exact:true
     }
 ]
 

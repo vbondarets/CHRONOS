@@ -5,7 +5,7 @@ import style from '../../style/CalendarStyle.module.css'
 import MyModal from "../../UI/MyModal/MyModal";
 
 const EventComponent = (props) => {
-    const {now, AllEvents} = props
+    const {now, AllEvents, calendar_id} = props
     
     const now_for_lastday = now.clone()
     const now_for_startday = now.clone()
@@ -31,12 +31,13 @@ const EventComponent = (props) => {
             <MyModal visible={modal} setVisible={setModal}>
                 <EventForm 
                     date={date}
+                    calendar_id = {calendar_id}
                 />
             </MyModal>
             <ul>
                 {days.map(index => {
                     return (
-                        <li className={style.DaysName}>{index}</li>
+                        <li key={index} className={style.DaysName}>{index}</li>
                     )
                 })} 
                 {calendar.map( (call,index) => {        
@@ -55,7 +56,7 @@ const EventComponent = (props) => {
                             {AllEvents.map(event => {
                                 if (event.time.substring(0,10) === value_of_calendar[index]) {
                                     return (
-                                        <p className = {style.Event} key={event.id}>
+                                        <p style = {{backgroundColor:event.color}} className = {style.Event} key={event.id}>
                                             {event.title}
                                         </p>
                                     )

@@ -12,7 +12,7 @@ moment.updateLocale(moment.locale(),{week:{dow:1}})
 const EventPage = () => {
     const {calendar_id} = useParams()
     const event = useSelector(state => state.Event)
-
+    
     const [now, setNow] = useState(moment())
     const [months, setMonths] = useState(now.month())
     const [year, setYear] = useState(now.year())
@@ -36,13 +36,13 @@ const EventPage = () => {
                     setNow = {setNow}
                     setYear = {setYear}
                     now = {now}
-                    
                     months = {months}
                     year = {year}
                 />
                 <EventComponent 
                     now = {now}
                     AllEvents = {AllEvents}
+                    calendar_id = {calendar_id}
                 />
             </div>  
         </div>

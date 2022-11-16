@@ -79,6 +79,27 @@ class Event_Controller {
         })
     }
 
+    async getNewestEventsByUser_id (req, res) {
+        const {user_id} = req.params
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+        console.log(decoded_id);
+        if (decoded_id == user_id) {
+            await Event.getLatestEventForUser(user_id).then(resp => {
+                if (resp[0].length > 0) {
+                    return res.status(200).json({message:"Take your events", result:resp[0]})
+                }
+                else {
+                    return res.status(200).json({message:"You havent events yet"})
+                }
+            })
+        }
+        else {
+            return res.status(404).json({message:"Something went wrong"})
+        }
+    }
+
     async shareEvent(req,res) {
         const {event_id} = req.params
         const {user_id} = req.body

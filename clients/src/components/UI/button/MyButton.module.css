@@ -1,10 +1,31 @@
-
-
 .myBtn{
     padding: 5px 15px;
-    font-size: 12px;
+    font-size: 15px;
     color: black;
     background: transparent;
     border: 1px solid black;
     cursor: pointer;
+    float: right;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+}
+.myBtn:hover {
+    background-color: #a515d1;
+    color: white;
+    border-color: #a515d1;
+}
+
+.ShareButton {
+    padding: 5px;
+    cursor: pointer;
+    float: right;
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+}
+.ShareButton:hover {
+    background-color: #a515d1;
+    color: white;
+    
 }

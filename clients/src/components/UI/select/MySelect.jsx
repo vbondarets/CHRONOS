@@ -2,9 +2,12 @@ import React from 'react'
 
 const MySelect = ({options, defaultValue, value, onChange}) => {
   return (
+    <>
+      <br></br>
     <select 
         value={value}
         onChange={event => onChange(event.target.value)}
+        style = {{padding:'5px', fontSize:'15px'}}
     >
         <option disabled={true} value="">{defaultValue}</option>
         {options.map(option => 
@@ -13,6 +16,7 @@ const MySelect = ({options, defaultValue, value, onChange}) => {
             </option>
         )}
     </select>
+    </>
   )
 }
 

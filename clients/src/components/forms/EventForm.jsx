@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MyButton from '../UI/button/MyButton'
 import MyInput from '../UI/input/MyInput'
 import MySelect from '../UI/select/MySelect';
 import moment from 'moment';
 import { SketchPicker, ChromePicker } from 'react-color';
+import { CreateEvent } from '../../action/EventAction';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
-const EventForm = ({ date }) => {
+
+const EventForm = ({ date, calendar_id }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('#4169e1');
@@ -15,25 +22,20 @@ const EventForm = ({ date }) => {
     const [categories, setCatigories] = useState(['arrangement', 'reminder', 'task']);
     const [category, setCatigory] = useState('');
 
+    let exactTime = moment(time.valueOf()).format('HH:mm')
+    const dispatch = useDispatch()
     const sendReq = (e) => {
         e.preventDefault();
-        
-        const body = {
-            title: title,
-            description: description,
-            type: category,
-            // time: moment().format("YYYY-MM-DD HH:mm")
-            time: date + " " + time
-        }
-        console.log(body);
+        const exactDate = date + ' ' + exactTime
+        console.log(exactDate);
+        dispatch(CreateEvent(title, description, category, color, exactDate, calendar_id))
     }
     const handleChangeComplete = (color, event) => {
-        // this.setState({ background: color.hex });
         setColor(color.hex);
     };
     return (
         <form>
-            <h1>Event</h1>
+            <h1>Create Event</h1>
             <MyInput
                 value={title}
                 onChange={e => setTitle(e.target.value)}
@@ -64,15 +66,20 @@ const EventForm = ({ date }) => {
                 color = {color}
                 onChangeComplete={ handleChangeComplete }
             />
-            <MyInput
-                value={time}
-                onChange={e => setTime(e.target.value)}
-                type="text"
-                placeholder="Event time"
-            />
+            <br></br>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Stack spacing={3}>
+                    <TimePicker
+                        ampm={false}
+                        minutesStep={5}
+                        value={time}
+                        onChange={setTime}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </Stack>
+            </LocalizationProvider>
             <h2>{errorMessage}</h2>
             <MyButton onClick={(e) => sendReq(e)}>{"Create Event"}</MyButton>
-            <button style={{color: color}}>test</button>
         </form>
     )
 }
