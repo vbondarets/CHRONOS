@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS calendar (
 CREATE TABLE IF NOT EXISTS event (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     author_id INT,
-    title VARCHAR(50) NOT NULL UNIQUE,
+    title VARCHAR(50) NOT NULL,
     description VARCHAR(256) NOT NULL,
     type ENUM('arrangement', 'reminder', 'task'),
     color VARCHAR(20),

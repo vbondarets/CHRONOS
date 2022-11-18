@@ -3,6 +3,7 @@ import { useState } from "react";
 import EventForm from "../../forms/EventForm";
 import EventView from "../../forms/EventView";
 import style from '../../style/CalendarStyle.module.css'
+import EventModal from "../../UI/MyModal/ModalForEvent";
 import MyModal from "../../UI/MyModal/MyModal";
 
 const EventComponent = (props) => {
@@ -21,13 +22,17 @@ const EventComponent = (props) => {
     const [modal, setModal] = useState(false);
     const [eventModal, setEventModal] = useState(false);
     const [date, setDate] = useState(false);
-    const [currentEvent, setCurrentEvent] = useState({})
-
+    let   [currentEvent, setCurrentEvent] = useState()
+    if (currentEvent === undefined) {
+        currentEvent =[]
+    }
     while (!day.isAfter(lastday)) {
         calendar.push(day.date())
         value_of_calendar.push(day.format('YYYY-MM-DD'))
         day.add(1,'day')
     }
+    const eventbyId = 1
+    const [eventid, seteventid] = useState()
     const dayNow = now.format('YYYY-MM-DD')
     return (
         <>
@@ -37,13 +42,11 @@ const EventComponent = (props) => {
                     calendar_id = {calendar_id}
                 />
             </MyModal>
-            <MyModal visible={eventModal} setVisible={setEventModal}>
+            <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
-                    body={currentEvent}
-                    date={date}
-                    calendar_id = {calendar_id}
+                    event = {currentEvent}
                 />
-            </MyModal>
+            </EventModal>
             <ul>
                 {days.map(index => {
                     return (
@@ -73,7 +76,8 @@ const EventComponent = (props) => {
                                             key={event.id}
                                             onClick = {(e) => {
                                                 e.stopPropagation()
-                                                console.log(AllEvents[indx])
+                                                console.log(AllEvents[indx].event_id)
+                                                
                                                 setCurrentEvent(AllEvents[indx]);
                                                 setEventModal(true)
                                             }}

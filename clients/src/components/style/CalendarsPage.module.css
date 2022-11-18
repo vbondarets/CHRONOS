@@ -1,0 +1,76 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.Container {
+    margin-top: 1%;
+}
+.Calendar {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    border: 1px solid black;
+    min-width: 30%;
+    border-radius: 20px;
+    margin-bottom: 4%;
+    transition: .3s ease-in-out;
+}
+.Calendar:hover {
+    transform: scale(1.1);
+}
+.Calendar p {
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 900;
+}
+.shareButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    float: left;
+    padding: 10px;
+    background: transparent;
+    margin-right: 1%;
+    border-radius: 10px;
+    transition: .4s ease-in-out;
+}
+.deleteButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    float: left;
+    padding: 10px;
+    background: transparent;
+    margin-right: 1%;
+    border-radius: 10px;
+    transition: .4s ease-in-out;
+}
+.shareButton:hover {
+    background-color: #a515d1;
+    color: white;
+    border-color: #a515d1;
+}
+.deleteButton:hover{
+    background-color: red;
+    color: white;
+    border-color: red;
+}
+.createButton {
+    padding: 10px;
+    background-color: transparent;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+.createButton:hover {
+    background-color: #a515d1;
+    color: white;
+    border-color: #a515d1;
+}

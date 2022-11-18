@@ -6,6 +6,11 @@ import { useHistory } from "react-router-dom";
 import MyModal from "../../UI/MyModal/MyModal";
 import ShareCalendarForm from "../../forms/ShareCalendarFrom";
 import ShareCalendarModal from "../../UI/MyModal/ShareCalendarModal";
+import CreateCalendarForm from "../../forms/CreateCalendarForm";
+import style from '../../style/CalendarsPage.module.css'
+import ShareIcon from '@mui/icons-material/Share';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const AllCalendarsPage = () => {
     const Calendars = useSelector(state => state.Calendar)
@@ -28,6 +33,7 @@ const AllCalendarsPage = () => {
         console.log("hyu");
     }
     const [visible, setVisible] = useState(false)
+    const [vis, setVis] = useState(false)
     let AllCalendars = Calendars.AllCalendarsById
     if (Calendars.AllCalendarsById === []) {
         AllCalendars = []
@@ -38,26 +44,34 @@ const AllCalendarsPage = () => {
     else {
         return (
             <>
-                {AllCalendars.map( calendars => {
-                    return(
-                    <>
-                        <ShareCalendarModal visible={visible} setVisible = {setVisible}>
-                            <ShareCalendarForm calendar_id={calendarid} />
-                        </ShareCalendarModal>
-                        <div key={calendars.id}>
-                            <p onClick={ () => history.push(`/calendar/${calendars.id}`)}>Title: {calendars.title}</p>
-                            {calendars.author_id === user_id ? <><button onClick={ (e) => {
-                                setCalendar_id(calendars.id)
-                                setVisible(true)
-                            }}>Share</button></> : <></>}
-                            <button onClick={ () => {
-                                console.log(calendars.id);
-                                dispatch(DeleteUserCalendar(user_id, calendars.id))
-                            }}>Delete</button>
-                        </div>
-                    </>
-                    )
-                })}   
+            <MyModal visible={vis} setVisible ={setVis}>
+                <CreateCalendarForm user_id={user_id}/>
+            </MyModal>
+                <button className={style.createButton} onClick={ () => setVis(true)}>Create Calendar  <AddIcon /></button>
+                <div className={style.Container} >
+                    {AllCalendars.map( calendars => {
+                        return(
+                        <>
+                            <ShareCalendarModal visible={visible} setVisible = {setVisible}>
+                                <ShareCalendarForm calendar_id={calendarid} />
+                            </ShareCalendarModal>
+                            <div className={style.Content} key={calendars.id}>
+                                <div className={style.Calendar}>
+                                    <p onClick={ () => history.push(`/calendar/${calendars.id}`)}>Title: {calendars.title}</p>
+                                    {calendars.author_id === user_id ? <><button className={style.shareButton} onClick={ (e) => {
+                                        setCalendar_id(calendars.id)
+                                        setVisible(true)
+                                    }}>Share <ShareIcon /></button></> : <></>}
+                                    <button className={style.deleteButton} onClick={ () => {
+                                        console.log(calendars.id);
+                                        dispatch(DeleteUserCalendar(user_id, calendars.id))
+                                    }}>Delete <DeleteIcon /></button>
+                                </div>
+                            </div>
+                        </>
+                        )
+                    })}
+                </div>   
             </>
         )
     }

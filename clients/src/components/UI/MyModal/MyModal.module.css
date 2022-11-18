@@ -6,6 +6,7 @@
     left: 0;
     display: none;
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
 }
 .myModal.active{
     display: flex;

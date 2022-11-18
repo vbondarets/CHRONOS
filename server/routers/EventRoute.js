@@ -4,6 +4,7 @@ const router = new Router()
 
 router.get('/:calendar_id', EventController.getEventsByCalendarId)
 router.get('/newest_events/:user_id', EventController.getNewestEventsByUser_id)
+router.get('/event/:event_id', EventController.getEventByid)
 
 router.post('/:calendar_id', EventController.createEvent)
 router.post('/share/:event_id', EventController.shareEvent)

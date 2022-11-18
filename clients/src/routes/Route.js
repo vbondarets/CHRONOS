@@ -1,4 +1,5 @@
 import AllCalendarsPage from "../components/pages/CalendarComponents/AllCalendarsPage";
+import Create_Page from "../components/pages/CalendarComponents/CreateEventComponent";
 import EventPage from "../components/pages/CalendarComponents/EventFromCalendars";
 import DayPage from "../components/pages/DayComponent/DayPage";
 import HomePage from "../components/pages/Homepage";
@@ -29,6 +30,9 @@ export const route = [
     },
     {
         path:'/calendar/:calendar_id', component:EventPage, exact:true
+    },
+    {
+        path:'/calendar/:calendar_id/create_event', component:Create_Page, exact:true
     },
     {
         path:'/calendar/:calendar_id/day/:day', component:DayPage, exact:true

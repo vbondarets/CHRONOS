@@ -1,12 +1,15 @@
 const initialState ={
     events:[],
-    latestEvents:[]
+    latestEvents:[],
+    eventId:[]
 }
 
 export const EventReducer = (event = initialState, action) => {
     switch (action.type) {
         case 'getEvets':
             return {...event, events:action.payload}
+        case 'getEventById':
+            return {...event, eventId: action.payload}
         case 'getLatestEvents':
             return {...event, latestEvents:action.payload}
         case 'createEvent': 

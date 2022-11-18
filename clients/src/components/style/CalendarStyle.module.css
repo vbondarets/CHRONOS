@@ -8,6 +8,19 @@
 	list-style: none;
   flex-wrap: wrap;
 }
+.createBuuton {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  justify-content: space-between;
+  border-radius: 10px;
+  transition: 0.5s ease-in-out;
+}
+.createBuuton:hover {
+  background-color: #a515d1;
+  color: white;
+  border-color: #a515d1;
+}
 .container_of_Calendar p {
   display: flex;
   align-items: center;

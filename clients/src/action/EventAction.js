@@ -1,4 +1,4 @@
-import { createevent, getEvents, getLatestEvents } from "../api/EventApi";
+import { createevent, getEventId, getEvents, getLatestEvents } from "../api/EventApi";
 
 export const getAllEventByCalendar = (calendar_id) => async(dispatch) => {
     try {
@@ -9,7 +9,15 @@ export const getAllEventByCalendar = (calendar_id) => async(dispatch) => {
         console.log(error);
     }
 }
-
+export const getEventById = (event_id) => async(dispatch) => {
+    try {
+       const {data} = await getEventId(event_id)
+       console.log(data);
+       return dispatch({type:'getEventById', payload: data.result}) 
+    } catch (error) {
+        console.log(error);
+    }
+}
 export const getNewestEventsByUser_id = (user_id) => async(dispatch)=> {
     try {
         const {data} = await getLatestEvents(user_id)

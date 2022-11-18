@@ -1,4 +1,4 @@
-import { CalendarById, deleteCalendar, SharingCalendar, SubmitSharing } from "../api/CalendarApi";
+import { CalendarById, createCalendar, deleteCalendar, SharingCalendar, SubmitSharing } from "../api/CalendarApi";
 
 
 export const getCalendarsById = (user_id) => async(dispatch) => {
@@ -39,6 +39,22 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
             const Data = await CalendarById(user_id)
             return dispatch({type:'deleteCalendar', payload:Data.data.result})
         }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const createCalendarByUser = (title, user_id) => async(dispatch) => {
+    try {
+        const {data} = await createCalendar(title)
+        if (data.result.affectedRows > 0) {
+            try {
+                const Data = await CalendarById(user_id);
+                return dispatch({type:'createCalendar', payload: Data.data.result})
+            } catch (error) {
+                console.log(error);
+            }
+        } 
     } catch (error) {
         console.log(error);
     }

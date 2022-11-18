@@ -37,7 +37,18 @@ class Event_Controller {
             }
         })
     }
-    
+    async getEventByid (req,res) {
+        const {event_id} = req.params
+        console.log(event_id);
+        await db.execute(`SELECT * FROM event LEFT JOIN users ON event.author_id = users.id WHERE event.id = ${event_id}`).then(resp => {
+            if (resp[0].length > 0) {
+                return res.status(200).json({message:'Take your event', result: resp[0]})
+            }
+            else {
+                return res.status(404).json({message:"Something went wrong"})
+            }
+        })
+    }
     async createEvent(req, res) {
         const {title, description, type, color,time} = req.body
         const {calendar_id} = req.params
@@ -53,27 +64,20 @@ class Event_Controller {
                 return res.status(404).json({message:"It`s not your calendar"})
             }
             else {
-                db.execute(`SELECT * FROM event WHERE title = "${title}"`).then( resp => {
-                    if (resp[0].length > 0) {
-                        return res.status(404).json({message: "Event with this title already created"})
+                Event.createEvent(title, decoded_id, description, type, color, calendar_id,time).then( resp => {
+                    if (resp[0].affectedRows > 0) {
+                        db.execute(`INSERT INTO event_users (calendar_id, user_id, event_id) 
+                                    VALUES('${calendar_id}', '${decoded_id}', '${resp[0].insertId}')`).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            return res.status(200).json({message:"Event was created", result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(404).json({message:"Something went wrong"})
+                                        }
+                                    })
                     }
                     else {
-                        Event.createEvent(title, decoded_id, description, type, color, calendar_id,time).then( resp => {
-                            if (resp[0].affectedRows > 0) {
-                                db.execute(`INSERT INTO event_users (calendar_id, user_id, event_id) 
-                                            VALUES('${calendar_id}', '${decoded_id}', '${resp[0].insertId}')`).then(resp => {
-                                                if (resp[0].affectedRows > 0) {
-                                                    return res.status(200).json({message:"Event was created", result:resp[0]})
-                                                }
-                                                else {
-                                                    return res.status(404).json({message:"Something went wrong"})
-                                                }
-                                            })
-                            }
-                            else {
-                                return res.status(404).json({message:"Something went wrong"})
-                            }
-                        })
+                        return res.status(404).json({message:"Something went wrong"})
                     }
                 })
             }

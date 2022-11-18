@@ -5,9 +5,9 @@ import MonthComponent from "./MonthComponent";
 import moment from 'moment'
 import { getAllEventByCalendar } from "../../../action/EventAction";
 import style from '../../style/CalendarStyle.module.css'
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 moment.updateLocale(moment.locale(),{week:{dow:1}})
-
 
 const EventPage = () => {
     const {calendar_id} = useParams()
@@ -18,6 +18,7 @@ const EventPage = () => {
     const [year, setYear] = useState(now.year())
 
     const dispatch = useDispatch()
+    const history = useHistory()
     useEffect ( () => {
         dispatch(getAllEventByCalendar(calendar_id))
     }, [dispatch])
@@ -29,8 +30,10 @@ const EventPage = () => {
     }
 
     return (
+        
         <div className={style.mainContainer}>
             <div className={style.container_of_Calendar}>
+            <button className={style.createBuuton} onClick = { () => {history.push(`/calendar/${calendar_id}/create_event`)}}>Create event <AddCircleIcon /></button>
                 <MonthComponent
                     setMonths ={setMonths}
                     setNow = {setNow}

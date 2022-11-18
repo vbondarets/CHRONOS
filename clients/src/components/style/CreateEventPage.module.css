@@ -1,0 +1,41 @@
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Content {
+    background: rgb(242, 242, 242);
+    padding: 20px;
+    border-radius: 25px;
+    min-width: 40%;
+}
+
+.Content input {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 2%;
+    font-size: 16px;
+}
+.Content input::placeholder {
+    font-family: 'Kanit', sans-serif;
+}
+.Content select {
+    margin-bottom: 2%;
+    padding: 5px;
+}
+.Content select option {
+    font-family: 'Kanit', sans-serif;
+}
+.Content button {
+    padding: 5px;
+    float: right;
+    margin-right: 10%;
+    font-family: 'Kanit', sans-serif;
+    border-radius: 5px;
+    transition: 0.5s ease-in-out;
+}
+.Content button:hover {
+    background-color: #a515d1;
+    color: white;
+    border-color: #a515d1;
+}
