@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import EventForm from "../../forms/EventForm";
+import EventView from "../../forms/EventView";
 import style from '../../style/CalendarStyle.module.css'
 import MyModal from "../../UI/MyModal/MyModal";
 
@@ -18,7 +19,9 @@ const EventComponent = (props) => {
     const calendar = []
     const value_of_calendar = []
     const [modal, setModal] = useState(false);
+    const [eventModal, setEventModal] = useState(false);
     const [date, setDate] = useState(false);
+    const [currentEvent, setCurrentEvent] = useState({})
 
     while (!day.isAfter(lastday)) {
         calendar.push(day.date())
@@ -30,6 +33,13 @@ const EventComponent = (props) => {
         <>
             <MyModal visible={modal} setVisible={setModal}>
                 <EventForm 
+                    date={date}
+                    calendar_id = {calendar_id}
+                />
+            </MyModal>
+            <MyModal visible={eventModal} setVisible={setEventModal}>
+                <EventView
+                    body={currentEvent}
                     date={date}
                     calendar_id = {calendar_id}
                 />
@@ -53,10 +63,21 @@ const EventComponent = (props) => {
                         >{value_of_calendar[index] === dayNow ? <b style={{
                            color:'red'
                         }}>{call}</b> : <>{call}</>}
-                            {AllEvents.map(event => {
+                            {AllEvents.map((event, indx) => {
                                 if (event.time.substring(0,10) === value_of_calendar[index]) {
                                     return (
-                                        <p style = {{backgroundColor:event.color}} className = {style.Event} key={event.id}>
+                                        <p 
+                                            style = {{backgroundColor:event.color}} 
+                                            className = {style.Event} 
+                                            key={event.id}
+                                            onClick = {(e) => {
+                                                e.stopPropagation()
+                                                console.log(AllEvents[indx])
+                                                setCurrentEvent(AllEvents[indx]);
+                                                setEventModal(true)
+                                            }}
+                                            
+                                        >
                                             {event.title}
                                         </p>
                                     )
