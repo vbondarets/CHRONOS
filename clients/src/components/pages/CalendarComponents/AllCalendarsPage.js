@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCalendarsById } from "../../../action/CalendarAction";
+import { DeleteUserCalendar, getCalendarsById } from "../../../action/CalendarAction";
 import jwt_decode from 'jwt-decode'
 import { useHistory } from "react-router-dom";
 import MyModal from "../../UI/MyModal/MyModal";
@@ -46,12 +46,13 @@ const AllCalendarsPage = () => {
                         </ShareCalendarModal>
                         <div key={calendars.id}>
                             <p onClick={ () => history.push(`/calendar/${calendars.id}`)}>Title: {calendars.title}</p>
-                            <button  onClick={ (e) => {
+                            {calendars.author_id === user_id ? <><button onClick={ (e) => {
                                 setCalendar_id(calendars.id)
                                 setVisible(true)
-                            }}>Share</button>
+                            }}>Share</button></> : <></>}
                             <button onClick={ () => {
-                                
+                                console.log(calendars.id);
+                                dispatch(DeleteUserCalendar(user_id, calendars.id))
                             }}>Delete</button>
                         </div>
                     </>

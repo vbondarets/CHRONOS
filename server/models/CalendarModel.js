@@ -22,8 +22,8 @@ class Calendar {
     getCalendarAuthor(id) {
         return db.execute(`SELECT author_id FROM calendar where id=${id}`)
     }
-    deleteUserFromCalendar(id){
-        return db.execute(`DELETE FROM calendar_users where user_id=${id}`)
+    deleteUserFromCalendar(id ,calendar_id){
+        return db.execute(`DELETE FROM calendar_users where user_id=${id} AND calendar_id = ${calendar_id}`)
     }
 }
 

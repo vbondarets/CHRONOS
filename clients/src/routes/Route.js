@@ -1,5 +1,6 @@
 import AllCalendarsPage from "../components/pages/CalendarComponents/AllCalendarsPage";
 import EventPage from "../components/pages/CalendarComponents/EventFromCalendars";
+import DayPage from "../components/pages/DayComponent/DayPage";
 import HomePage from "../components/pages/Homepage";
 import LoginPage from "../components/pages/LoginPage";
 import RegisterPage from "../components/pages/RegisterPage";
@@ -28,6 +29,9 @@ export const route = [
     },
     {
         path:'/calendar/:calendar_id', component:EventPage, exact:true
+    },
+    {
+        path:'/calendar/:calendar_id/day/:day', component:DayPage, exact:true
     },
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true

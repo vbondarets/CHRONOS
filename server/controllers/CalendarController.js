@@ -175,22 +175,77 @@ class CalendarController {
         }
     }
     async deleteUserFromCalendar(req, res) {
-        const { user_id } = req.params
-        const { calendar_id } = req.body
-        if (!user_id) {
+        const {user_id, calendar_id} = req.params
+        
+        console.log(user_id);
+        console.log(calendar_id);
+        if (!user_id || !calendar_id) {
             return res.status(404).json({ message: "Something went wrong" })
         }
         await Calendar.getCalendarAuthor(calendar_id).then(resp => {
             if (resp[0].length > 0) {
                 const author_id = resp[0];
-                if (user_id !== author_id) {
-                    Calendar.deleteUserFromCalendar(user_id).then(result => {
-                        if (result[0].length > 0) {
+                console.log(author_id[0].author_id);
+                if (user_id != author_id[0].author_id.toString()) {
+                    Calendar.deleteUserFromCalendar(user_id, calendar_id).then(result => {
+                        if (result[0].affectedRows > 0) {
                             return res.status(200).json({ message: "User deleted", result: result[0] })
 
                         }
                         else {
                             return res.status(500).json({ message: "Something went wrong" })
+                        }
+                    })
+                }
+                else if (user_id === author_id[0].author_id.toString()) {
+                    db.execute(`DELETE FROM event_users WHERE calendar_id=${calendar_id}`).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            db.execute(`DELETE FROM calendar_users WHERE calendar_id = ${calendar_id}`).then(resp => {
+                                if (resp[0].affectedRows > 0) {
+                                    db.execute(`DELETE FROM calendar WHERE id = ${calendar_id}`).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            return res.status(200).json({message:'You delete your calendar', result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(403).json({ message: "Something went wrong" })
+                                        }
+                                    })
+                                }
+                                else {
+                                    db.execute(`DELETE FROM calendar WHERE id = ${calendar_id}`).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            return res.status(200).json({message:'You delete your calendar', result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(403).json({ message: "Something went wrong" })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                        else {
+                            db.execute(`DELETE FROM calendar_users WHERE calendar_id = ${calendar_id}`).then(resp => {
+                                if (resp[0].affectedRows > 0) {
+                                    db.execute(`DELETE FROM calendar WHERE id = ${calendar_id}`).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            return res.status(200).json({message:'You delete your calendar', result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(403).json({ message: "Something went wrong" })
+                                        }
+                                    })
+                                }
+                                else {
+                                    db.execute(`DELETE FROM calendar WHERE id = ${calendar_id}`).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            return res.status(200).json({message:'You delete your calendar', result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(403).json({ message: "Something went wrong" })
+                                        }
+                                    })
+                                }
+                            })
                         }
                     })
                 }

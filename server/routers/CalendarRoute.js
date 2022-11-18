@@ -9,5 +9,6 @@ router.post('/',CalendarController.createCalendar)
 router.get('/:user_id', CalendarController.getCalendarById)
 router.get('/share/:token',CalendarController.shareCalendarToUser)
 router.post('/share/:calendar_id',CalendarController.shareCalendar)
+router.delete('/delete/:calendar_id/:user_id', CalendarController.deleteUserFromCalendar)
 
 module.exports = router

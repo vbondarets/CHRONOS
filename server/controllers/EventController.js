@@ -185,7 +185,7 @@ class Event_Controller {
             return res.status(404).json({message:"Its not for you"})
         }
     }
-
+    
     async UpdateEvent(req,res) {
         const {title, description, color, type} = req.body
         const {event_id, calendar_id} = req.params

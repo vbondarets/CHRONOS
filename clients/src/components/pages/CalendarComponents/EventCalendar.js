@@ -55,6 +55,7 @@ const EventComponent = (props) => {
                         }}>{call}</b> : <>{call}</>}
                             {AllEvents.map(event => {
                                 if (event.time.substring(0,10) === value_of_calendar[index]) {
+                                    console.log(event.time);
                                     return (
                                         <p style = {{backgroundColor:event.color}} className = {style.Event} key={event.id}>
                                             {event.title}
