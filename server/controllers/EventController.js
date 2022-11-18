@@ -19,7 +19,14 @@ class Event_Controller {
     async getEventsByCalendarId(req, res) {
         const {calendar_id} = req.params
         const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        let decoded;
+        try{
+            decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        }
+        catch (err){
+            return res.status(409).json({message: err})
+        }
+        
         const decoded_id = decoded.id
         await db.execute(`SELECT * FROM calendar_users WHERE user_id=${decoded_id} AND calendar_id=${calendar_id}`).then( resp => {
             if (resp[0].length > 0) {
@@ -42,7 +49,7 @@ class Event_Controller {
         const {title, description, type, color,time} = req.body
         const {calendar_id} = req.params
         const token = req.headers.authorization.split(' ')[1];
-        console.log(token)
+        // console.log(token)
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
         if (!title || !description || !type || !color || !time) {
@@ -83,7 +90,13 @@ class Event_Controller {
     async getNewestEventsByUser_id (req, res) {
         const {user_id} = req.params
         const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        let decoded;
+        try{
+            decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        }
+        catch (err){
+            return res.status(409).json({message: err})
+        }
         const decoded_id = decoded.id
         console.log(decoded_id);
         if (decoded_id == user_id) {

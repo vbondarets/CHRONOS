@@ -14,4 +14,6 @@ export const getEvents = (calendar_id) => api.get(`http://127.0.0.1:3001/api/eve
 export const getLatestEvents = (user_id) => api.get(`http://127.0.0.1:3001/api/event/newest_events/${user_id}`)
 
 export const createevent = (title, description, type, color, time, calendar_id) => 
-            api.post(`http://127.0.0.1:3001/api/event/${calendar_id}`, {title: title, description: description, type: type, color: color, time:time})
+api.post(`http://127.0.0.1:3001/api/event/${calendar_id}`, {title: title, description: description, type: type, color: color, time:time})
+
+export const deleteEvent = (calendar_id, event_id) => api.delete(`http://127.0.0.1:3001/api/event/${calendar_id}/delete/${event_id}`)

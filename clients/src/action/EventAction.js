@@ -1,4 +1,4 @@
-import { createevent, getEvents, getLatestEvents } from "../api/EventApi";
+import { createevent, deleteEvent, getEvents, getLatestEvents } from "../api/EventApi";
 
 export const getAllEventByCalendar = (calendar_id) => async(dispatch) => {
     try {
@@ -25,6 +25,19 @@ export const CreateEvent = (title, description, type, color, time, calendar_id) 
         if (data.result.affectedRows > 0) {
             const Data = await getEvents(calendar_id)
             return dispatch({type:'createEvent', payload: Data.data.result})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const DeleteEvent = (calendar_id, event_id) => async(dispatch) => {
+    try {
+        const {data} = await deleteEvent(calendar_id, event_id)
+        console.log(data)
+        if (data.message === "Event was deleted") {
+            
+            const {data} = await getEvents(calendar_id)
+            return dispatch({type:'createEvent', payload: data.result})
         }
     } catch (error) {
         console.log(error);

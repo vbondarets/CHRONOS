@@ -35,6 +35,7 @@ const EventComponent = (props) => {
                 <EventForm 
                     date={date}
                     calendar_id = {calendar_id}
+                    setVisible={setModal}
                 />
             </MyModal>
             <MyModal visible={eventModal} setVisible={setEventModal}>
@@ -42,6 +43,7 @@ const EventComponent = (props) => {
                     body={currentEvent}
                     date={date}
                     calendar_id = {calendar_id}
+                    setVisible={setEventModal}
                 />
             </MyModal>
             <ul>
