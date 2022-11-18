@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 const EventForm = ({ date, calendar_id }) => {
@@ -29,6 +30,12 @@ const EventForm = ({ date, calendar_id }) => {
         const exactDate = date + ' ' + exactTime
         console.log(exactDate);
         dispatch(CreateEvent(title, description, category, color, exactDate, calendar_id))
+        setDescription('');
+        setTitle('');
+        setColor('');
+        setCatigory('');
+        setMessage('');
+        setTime('00:00');
     }
     const handleChangeComplete = (color, event) => {
         setColor(color.hex);
@@ -61,6 +68,7 @@ const EventForm = ({ date, calendar_id }) => {
                 onChange={e => setColor(e.target.value)}
                 type="text"
                 placeholder="Event color"
+                disabled={true}
             />
             <ChromePicker
                 color = {color}
@@ -79,7 +87,7 @@ const EventForm = ({ date, calendar_id }) => {
                 </Stack>
             </LocalizationProvider>
             <h2>{errorMessage}</h2>
-            <MyButton onClick={(e) => sendReq(e)}>{"Create Event"}</MyButton>
+            <MyButton onClick={(e) => sendReq(e)}>{"Create Event"} <AddCircleOutlineIcon/></MyButton>
         </form>
     )
 }

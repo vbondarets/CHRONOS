@@ -26,19 +26,19 @@ const LoginPage = () => {
                 <div>
                     <p>Email: 
                     <input type="email" name="email" placeholder="Please paste your email"
-                        maxLength={20} required={true} 
+                        maxLength={52} required={true} 
                         value = {email} onChange= {e=>setEmail(e.target.value)}
                     />
                     </p>
                     <p>Login: 
                     <input type="text" name="login" placeholder="Please paste your login"
-                        maxLength={20} required={true} value={login} 
+                        maxLength={52} required={true} value={login} 
                         onChange = {e=>setLogin(e.target.value)}
                     />
                     </p>
                     <p>Password: 
                     <input type="password" name="password" placeholder="Please paste your password"
-                        minLength={8} required={true} 
+                        minLength={24} required={true} 
                         value = {password} onChange= {e => setPassword(e.target.value)}
                     /> 
                     </p>

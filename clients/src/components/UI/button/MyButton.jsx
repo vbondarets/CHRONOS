@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 const MyButton = ({children, ...props}) => {
   return (
     <button {...props} className={classes.myBtn}>
-        {children}<AddCircleOutlineIcon />
+        {children}
     </button>
   )
 }
