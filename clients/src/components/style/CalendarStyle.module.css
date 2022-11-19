@@ -9,6 +9,7 @@
   flex-wrap: wrap;
 }
 .createBuuton {
+  background-color: transparent;
   display: flex;
   align-items: center;
   padding: 7px;
@@ -25,7 +26,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1%;
 }
 .container_of_Calendar ul li {
   width: calc(100%/8);

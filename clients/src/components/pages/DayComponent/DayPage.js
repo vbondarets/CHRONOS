@@ -53,9 +53,9 @@ const DayPage = () => {
                     return (
                         <li value={value_of_date[index]} key={value_of_date[index]}>
                             {date}
-                            {AllEvent.map(ev => {
-                                if (moment(ev.time).format('YYYY-MM-DD HH:mm') === value_of_date[index]) {
-                                    console.log(moment(ev.time).format('YYYY:MM:DD HH:mm').toString());
+                            {AllEvent.map((ev) => {
+                                console.log(moment(ev.start_At).format('YYYY:MM:DD HH:mm').toString());
+                                if (moment(ev.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index]) {
                                     return(<p key={ev.id}>{ev.title}</p>)
                                 }
                             })}

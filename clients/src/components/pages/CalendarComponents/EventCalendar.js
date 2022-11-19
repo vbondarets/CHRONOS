@@ -1,6 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import EventForm from "../../forms/EventForm";
 import EventView from "../../forms/EventView";
 import style from '../../style/CalendarStyle.module.css'
@@ -10,6 +11,7 @@ import MyModal from "../../UI/MyModal/MyModal";
 const EventComponent = (props) => {
     const {now, AllEvents, calendar_id} = props
     
+    const history = useHistory()
     const now_for_lastday = now.clone()
     const now_for_startday = now.clone()
 
@@ -23,7 +25,8 @@ const EventComponent = (props) => {
     const [modal, setModal] = useState(false);
     const [eventModal, setEventModal] = useState(false);
     const [date, setDate] = useState(false);
-    let   [currentEvent, setCurrentEvent] = useState()
+    let [currentEvent, setCurrentEvent] = useState()
+
     if (currentEvent === undefined) {
         currentEvent =[]
     }
@@ -63,8 +66,8 @@ const EventComponent = (props) => {
                                 setDate(value_of_calendar[index]);
                                 setModal(true);
                             }}
-                        >{value_of_calendar[index] === dayNow ? <b style={{
-                           color:'red'
+                        >{value_of_calendar[index] === dayNow ? <b onClick={ () => {history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)}} style={{
+                           color:'red',
                         }}>{call}</b> : <>{call}</>}
                             {AllEvents.map((event, indx) => {
                                 console.log(moment(event.start_At).format('HH:mm'));
@@ -72,7 +75,7 @@ const EventComponent = (props) => {
                                     console.log(event.time);
                                     return (
                                         <p 
-                                            style = {{backgroundColor:event.color}} 
+                                            style = {{backgroundColor:event.color, color:'white', borderRadius:'10px'}} 
                                             className = {style.Event} 
                                             key={event.id}
                                             onClick = {(e) => {

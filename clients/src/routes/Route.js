@@ -23,7 +23,7 @@ export const route = [
         path:`/reset-password/:confirm_token`, component: TokenReset, exact:true
     },
     {
-        path: '/', component:HomePage, exact:true
+        path: '/home', component:HomePage, exact:true
     },
     {
         path:'/calendar', component:AllCalendarsPage, exact:true

@@ -30,7 +30,7 @@
 }
 .liNavbarRegister {
   display: inline-block;
-  margin-left: 79%;
+  margin-left: 75%;
 }
 .liNavbar button {
   display: flex;
@@ -45,7 +45,6 @@
   cursor: pointer;
   display:flex;
   align-items: center;
-  color: #e7dfdd;
   text-align: center;
   font-size: 18px;
   padding: 20px;

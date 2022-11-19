@@ -21,6 +21,7 @@ const Create_Page = () => {
     const [type, setType] = useState('')
     const [time, setTime] = useState(moment())
     const [date, setDate] = useState(moment())
+    const [time_end, setTime_end] = useState(moment())
     const handleChangeComplete = (color, event) => {
         setColor(color.hex);
     };
@@ -30,8 +31,12 @@ const Create_Page = () => {
     const handleChangeOfTime = (newValue: Dayjs | null) => {
         setTime(newValue);
     };
+    const handleChangeOfTime_End = (newValue: Dayjs | null) => {
+        setTime_end(newValue);
+    };
     const exact_date = date.format('YYYY-MM-DD')
     const exact_time = time.format('HH:mm')
+    const exact_time_end = time_end.format('HH:mm')
     console.log(`${exact_date} ${exact_time}`);
     const dispatch = useDispatch()
     return ( 
@@ -73,26 +78,64 @@ const Create_Page = () => {
                     />
                     <br></br>
                     <br></br>
-                    <TimePicker
-                        label= 'Select time'
-                        ampm={false}
-                        minutesStep={5}
-                        value={time}
-                        onChange={handleChangeOfTime}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
+                    {type === 'arrangement' ? 
+                    <>
+                        <TimePicker
+                            label= 'Select time'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time}
+                            onChange={handleChangeOfTime}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                        <TimePicker
+                            label= 'Select time'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time_end}
+                            onChange={handleChangeOfTime_End}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </> 
+                    : 
+                    <>
+                        <TimePicker
+                            label= 'Select time'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time}
+                            onChange={handleChangeOfTime}
+                            renderInput={(params) => <TextField {...params} />}
+                        /> 
+                    </>
+                    }
                 </LocalizationProvider>
                 <br></br>
-                <button onClick={ () => 
-                    {const exact= `${exact_date} ${exact_time}:00`
-                    console.log(exact);
-                    dispatch(CreateEvent(title, description, type, color, exact, calendar_id))
-                    setTitle('')
-                    setDescription('')
-                    setType('')
-                    setColor('')
-                    setTime(moment())
-                    setDate(moment())
+                <button onClick={ () => {
+                    if (type === 'arrangement') {
+                        const exact= `${exact_date} ${exact_time}:00`
+                        const end_exact = `${exact_date} ${exact_time_end}:00`
+                        console.log(exact);
+                        console.log(end_exact);
+                        dispatch(CreateEvent(title, description, type, color, exact, end_exact, calendar_id))
+                        setTitle('')
+                        setDescription('')
+                        setType('')
+                        setColor('')
+                        setTime(moment())
+                        setDate(moment())
+                    }
+                    else {
+                        const exact= `${exact_date} ${exact_time}:00`
+                        const end_exact = `${exact_date} ${time.add(5,'minute').format('HH:mm')}:00`
+                        dispatch(CreateEvent(title, description, type, color, exact, end_exact, calendar_id))
+                        setTitle('')
+                        setDescription('')
+                        setType('')
+                        setColor('')
+                        setTime(moment())
+                        setDate(moment())
+                    }
                 }
                 }>Create Event</button>
             </div>
