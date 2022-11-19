@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllEventByCalendar } from "../../../action/EventAction";
+import style from '../../style/DayPageStyle.module.css'
+
 
 const DayPage = () => {
-    const value_of_date = []
     const {day, calendar_id} = useParams()
     const event = useSelector(state => state.Event)
     const dispatch = useDispatch()
@@ -19,51 +20,86 @@ const DayPage = () => {
         AllEvent = []
     }
     console.log(calendar_id);
-    const time = []
+    const time = new Array(24)
+    for (var i = 0; i < time.length; i++) {
+        time[i] = new Array(12);
+    }
+    const value_of_date = new Array(24)
+    for (var i = 0; i < time.length; i++) {
+        value_of_date[i] = new Array(12);
+    }
+    const bigtime = []
     for (let index = 0; index < 24; index+=1) {
-        for (let i = 0; i < 60; i+=15) {
+        for (let q = 0; q < 12; q++) {
             if (index < 10 ) {
-                if (i === 0) {
-                    time.push(`0${index}:0${i}`)    
+                if (q === 0 || q*5 === 5) {
+                    time[index][q] = `0${index}:0${q*5}`    
                 }
                 else {
-                    time.push(`0${index}:${i}`)
+                    time[index][q] =`0${index}:${q*5}`
                 }
             } 
             
             else {
-                if (i === 0) {
-                    time.push(`${index}:0${i}`)
+                if (q === 0 || q*5 === 5) {
+                    time[index][q] =`${index}:0${q*5}`
                 }
                 else {
-                    time.push(`${index}:${i}`)
+                    time[index][q] = `${index}:${q*5}`
                 }
-            }
+            }   
+        }
+    }
+    for (let index = 0; index < 24; index++) {
+        if(index < 10) {
+            bigtime.push(`0${index}:00`)
+        }
+        else {
+            bigtime.push(`${index}:00`)
+        }
+        
+    }
+    for (let index = 0; index < 24; index+=1) {
+        for (let i = 0; i < 12; i++) {
+            value_of_date[index][i] = `${day} ${time[index][i]}`
         }
     }
     for (let index = 0; index < 96; index++) {
-        value_of_date.push(`${day} ${time[index]}`)
         
+    }
+    let value_of_bigTime = []
+    for (let index = 0; index < 24; index++){
+        value_of_bigTime.push(`${day} ${bigtime}`)
     }
     console.log(value_of_date);
     return(
-        <>
-            <ul>
-                {time.map( (date, index) => {
+        <div className={style.Container}>
+            <table style={{width:'100%'}}>
+                <tbody>
+                {bigtime.map( (date, index) => {
                     return (
-                        <li value={value_of_date[index]} key={value_of_date[index]}>
-                            {date}
-                            {AllEvent.map((ev) => {
-                                console.log(moment(ev.start_At).format('YYYY:MM:DD HH:mm').toString());
-                                if (moment(ev.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index]) {
-                                    return(<p key={ev.id}>{ev.title}</p>)
-                                }
+                        <tr style={{width:'100%'}} value={value_of_bigTime[index]} key={index}>
+                            <td className={style.BigTime}>{date}</td>
+                            {time.map(( tm, indx) => {
+                                return (
+                                    <tr className={style.Grid} key={indx}>
+                                        {AllEvent.map((ev) => {
+                                            if (moment(ev.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index][indx]) {
+                                                return(<td  style={{backgroundColor:ev.color, width:'3%', padding:'5px', color:'white', textAlign:'center'}} key={ev.id}>{ev.title}</td>)
+                                            }
+                                            else {
+                                                return(<td style={{display:'none'}}></td>)
+                                            }
+                                        })}
+                                    </tr>
+                                )
                             })}
-                        </li>
+                        </tr>
                     )
                 })}
-            </ul>
-        </>
+                </tbody>
+            </table>
+        </div>
     )
 }
 

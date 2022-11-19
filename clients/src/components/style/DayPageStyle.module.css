@@ -1,0 +1,9 @@
+.Container {
+    display: flex;
+}
+.BigTime {
+    padding: 5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    width: 3%;
+}
