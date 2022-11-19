@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS event (
     type ENUM('arrangement', 'reminder', 'task'),
     color VARCHAR(20),
     calendar_id INT,
-    time TIMESTAMP,
+    start_At TIMESTAMP,
+    end_At TIMESTAMP,
     FOREIGN KEY (calendar_id) REFERENCES calendar(id) ON DELETE CASCADE,
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );

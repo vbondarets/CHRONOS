@@ -20,25 +20,41 @@ const EventForm = ({ date, calendar_id, setVisible }) => {
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('#4169e1');
     const [time, setTime] = useState('00:00');
+    const [time_end, setTime_end] = useState('00:00')
     const [errorMessage, setMessage] = useState('');
     const [categories, setCatigories] = useState(['arrangement', 'reminder', 'task']);
     const [category, setCategory] = useState('');
 
-    let exactTime = moment(time.valueOf()).format('HH:mm')
+    let exactTime = moment(time.valueOf())
+    let exactTime_end = moment(time_end.valueOf()).format('HH:mm')
     const dispatch = useDispatch()
     const sendReq = (e) => {
         e.preventDefault();
         if (title != '', description != '', exactTime, color != '', category != '') {
-            const exactDate = date + ' ' + exactTime
-            console.log(exactDate);
-            dispatch(CreateEvent(title, description, category, color, exactDate, calendar_id))
-            setDescription('');
-            setTitle('');
-            setColor('');
-            setCategory('');
-            setMessage('');
-            setTime('00:00');
-            setVisible(false);
+            const exactDate = date + ' ' + exactTime.format('HH:mm')
+            if (category === 'arrangement') {
+                const exactData_end = date + ' ' + exactTime_end
+                dispatch(CreateEvent(title, description, category, color, exactDate, exactData_end, calendar_id)) 
+                setDescription('');
+                setTitle('');
+                setColor('');
+                setCategory('');
+                setMessage('');
+                setTime('00:00');
+                setVisible(false);   
+            }
+            else {
+                let Time_end = exactTime.clone()
+                const exactData_end = date + ' ' + Time_end.add(5, 'minute').format('HH:mm')
+                dispatch(CreateEvent(title, description, category, color, exactDate, exactData_end, calendar_id))
+                setDescription('');
+                setTitle('');
+                setColor('');
+                setCategory('');
+                setMessage('');
+                setTime('00:00');
+                setVisible(false);
+            }
         }
         else{
             setMessage("Fill all fields");
@@ -93,13 +109,37 @@ const EventForm = ({ date, calendar_id, setVisible }) => {
             <br></br>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Stack spacing={3}>
-                    <TimePicker
-                        ampm={false}
-                        minutesStep={5}
-                        value={time}
-                        onChange={setTime}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
+                    {category === 'arrangement' ? 
+                    <>
+                        <TimePicker
+                            label = 'Event start'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time}
+                            onChange={setTime}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                        <TimePicker
+                            label = 'Event end'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time_end}
+                            onChange={setTime_end}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </> 
+                    : 
+                    <>
+                        <TimePicker
+                            label = 'Event start'
+                            ampm={false}
+                            minutesStep={5}
+                            value={time}
+                            onChange={setTime}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </>
+                    }
                 </Stack>
             </LocalizationProvider>
             <h2 style={{color: "red"}}>{errorMessage}</h2>

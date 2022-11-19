@@ -23,12 +23,11 @@ const EventPage = () => {
         dispatch(getAllEventByCalendar(calendar_id))
     }, [dispatch])
 
-    let AllEvents = []
-    AllEvents = event.events
+    let AllEvents = event.events
     if (AllEvents === undefined) {
         AllEvents = []
     }
-
+    console.log(AllEvents);
     return (
         
         <div className={style.mainContainer}>

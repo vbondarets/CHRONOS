@@ -1,4 +1,3 @@
-const e = require('express')
 const db = require('./db')
 
 class EventModel {
@@ -28,9 +27,9 @@ class EventModel {
                             LEFT JOIN event ON event_users.event_id = event.id
                             WHERE event_users.user_id = ${user_id} LIMIT 5`)
     }
-    createEvent(title, author_id, description, type, color, calendar_id, time) {
-        return db.execute(`INSERT INTO event (title, author_id,description, type, color, calendar_id, time) 
-                            VALUES ('${title}','${author_id}','${description}','${type}','${color}','${calendar_id}', '${time}');`)
+    createEvent(title, author_id, description, type, color, calendar_id, start_at, end_at) {
+        return db.execute(`INSERT INTO event (title, author_id,description, type, color, calendar_id, start_at, end_at) 
+                            VALUES ('${title}','${author_id}','${description}','${type}','${color}','${calendar_id}', '${start_at}', '${end_at}');`)
     }
     shareEventForuser(event_id, user_id, calendar_id) {
         return db.execute(`INSERT INTO event_users (event_id, user_id, calendar_id) VALUES ('${event_id}','${user_id}', '${calendar_id}')`)

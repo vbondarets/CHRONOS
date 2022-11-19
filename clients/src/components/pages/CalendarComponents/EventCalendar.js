@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { useState } from "react";
 import EventForm from "../../forms/EventForm";
@@ -31,8 +32,7 @@ const EventComponent = (props) => {
         value_of_calendar.push(day.format('YYYY-MM-DD'))
         day.add(1,'day')
     }
-    const eventbyId = 1
-    const [eventid, seteventid] = useState()
+    
     const dayNow = now.format('YYYY-MM-DD')
     return (
         <>
@@ -40,19 +40,11 @@ const EventComponent = (props) => {
                 <EventForm 
                     date={date}
                     calendar_id = {calendar_id}
-                    setVisible={setModal}
                 />
             </MyModal>
             <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
-<<<<<<< HEAD
                     event = {currentEvent}
-=======
-                    body={currentEvent}
-                    date={date}
-                    calendar_id = {calendar_id}
-                    setVisible={setEventModal}
->>>>>>> 1fb237cac1973029580de7563eea952e2bf8f903
                 />
             </EventModal>
             <ul>
@@ -75,7 +67,8 @@ const EventComponent = (props) => {
                            color:'red'
                         }}>{call}</b> : <>{call}</>}
                             {AllEvents.map((event, indx) => {
-                                if (event.time.substring(0,10) === value_of_calendar[index]) {
+                                console.log(moment(event.start_At).format('HH:mm'));
+                                if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
                                     console.log(event.time);
                                     return (
                                         <p 

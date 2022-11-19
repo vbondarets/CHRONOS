@@ -4,6 +4,7 @@ const db = require('../models/db')
 const message = require("nodemailer")
 const userModel = require('../models/userModel')
 const e = require('express')
+const { end } = require('../models/db')
 require('dotenv').config()
 
 function jwtGenerator(event_id, direction_id, author_id){
@@ -57,13 +58,13 @@ class Event_Controller {
         })
     }
     async createEvent(req, res) {
-        const {title, description, type, color,time} = req.body
+        const {title, description, type, color,start_at, end_at} = req.body
         const {calendar_id} = req.params
         const token = req.headers.authorization.split(' ')[1];
         // console.log(token)
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
-        if (!title || !description || !type || !color || !time) {
+        if (!title || !description || !type || !color || !start_at || !end_at) {
             return res.status(404).json({message: "Fill all required fields"})
         }
         await db.execute(`SELECT * FROM calendar_users WHERE calendar_id = ${calendar_id} AND user_id = ${decoded_id}`).then( resp => {
@@ -71,7 +72,7 @@ class Event_Controller {
                 return res.status(404).json({message:"It`s not your calendar"})
             }
             else {
-                Event.createEvent(title, decoded_id, description, type, color, calendar_id,time).then( resp => {
+                Event.createEvent(title, decoded_id, description, type, color, calendar_id,start_at, end_at).then( resp => {
                     if (resp[0].affectedRows > 0) {
                         db.execute(`INSERT INTO event_users (calendar_id, user_id, event_id) 
                                     VALUES('${calendar_id}', '${decoded_id}', '${resp[0].insertId}')`).then(resp => {
