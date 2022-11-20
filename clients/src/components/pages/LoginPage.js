@@ -10,12 +10,24 @@ const LoginPage = () => {
     const [login,setLogin] = useState('')
     const [password,setPassword] = useState('')
     const [email,setEmail] = useState('')
+    const [message ,setMessage] = useState('')
+    const [status ,setStatus] = useState(false)
+
     const dispatch = useDispatch()
     const history = useHistory()
+
+    const setError = (text) => {
+        console.log(text)
+        setMessage(text)
+        setTimeout(()=>  setMessage(''), 2000)
+    }
+
     const submit = e => {
         e.preventDefault()
-        dispatch(loginUser(login,password,email))
-        history.push('/')
+        dispatch(loginUser(login,password,email, setError, setStatus))
+        if(status){
+            history.push('/calendar')
+        }
     }
     return (
         <div className={style.LoginDiv}>
@@ -42,6 +54,7 @@ const LoginPage = () => {
                         value = {password} onChange= {e => setPassword(e.target.value)}
                     /> 
                     </p>
+                    <h4 style={{color: 'red'}}>{message}</h4>
                     <div className={style.divSubmit}>
                         <a className={style.linkLogin} onClick={()=>{history.push(`/register`)}}>Haven't account?</a>
                         <a onClick={()=>{history.push('/reset-password')}} className={style.linkLogin1}>Forget your password?</a>

@@ -12,14 +12,19 @@ export const register = (login,full_name, email,password) => async(dispatch) => 
     } 
 }
 
-export const loginUser = (login,password,email) => async (dispatch) => {
+export const loginUser = (login,password,email, callback, setStatus) => async (dispatch) => {
     try {
-        if (!login || !password || !email) {alert("Fill all required fields")}
+        if (!login || !password || !email) {
+            return callback("Fill all required fields")
+        }
         const {data} = await loginn(email,login,password)
         Cookie.set('token', data.token,{expires:7})
         dispatch({type:'login', payload:data.token})
+        setStatus(true);
     } catch (e) {
-        alert("Check login, email or password")
+        console.log("poehali");
+        callback('Check login, email or password');
+        // alert("Check login, email or password")
     }
 }
 
