@@ -18,9 +18,10 @@ const AllCalendarsPage = () => {
     const [calendarid, setCalendar_id] = useState()
     //check user_id
     const tokenn = auth.token
-    let decode, user_id
+    let decode, user_id,login
     decode = jwt_decode(tokenn)
     user_id = decode.id
+    login = decode.login
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -58,14 +59,17 @@ const AllCalendarsPage = () => {
                             <div className={style.Content} key={calendars.id}>
                                 <div className={style.Calendar}>
                                     <p onClick={ () => history.push(`/calendar/${calendars.id}`)}>Title: {calendars.title}</p>
+                                    <p>Description: {calendars.description}</p>
                                     {calendars.author_id === user_id ? <><button className={style.shareButton} onClick={ (e) => {
                                         setCalendar_id(calendars.id)
                                         setVisible(true)
                                     }}>Share <ShareIcon /></button></> : <></>}
-                                    <button className={style.deleteButton} onClick={ () => {
-                                        console.log(calendars.id);
-                                        dispatch(DeleteUserCalendar(user_id, calendars.id))
-                                    }}>Delete <DeleteIcon /></button>
+                                    {calendars.title === `${login} Calendar` || calendars.title === `National Calendar ${login}` ? <></> :
+                                        <button className={style.deleteButton} onClick={ () => {
+                                            console.log(calendars.id);
+                                            dispatch(DeleteUserCalendar(user_id, calendars.id))
+                                        }}>Delete <DeleteIcon /></button>
+                                    }
                                 </div>
                             </div>
                         </>

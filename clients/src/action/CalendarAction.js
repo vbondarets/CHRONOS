@@ -44,9 +44,9 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
     }
 }
 
-export const createCalendarByUser = (title, user_id) => async(dispatch) => {
+export const createCalendarByUser = (title, user_id, description) => async(dispatch) => {
     try {
-        const {data} = await createCalendar(title)
+        const {data} = await createCalendar(title, description)
         if (data.result.affectedRows > 0) {
             try {
                 const Data = await CalendarById(user_id);

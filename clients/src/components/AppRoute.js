@@ -25,33 +25,17 @@ const AppRoute = () => {
 
 
     }, [store.Auth.token])
-    if (isAuth) {
-        return (
-            <>
-                <Navbar />
-                <Switch>
-                    {privateRoute.map((route) =>
-                        <Route key={route.path} component={route.component} path={route.path} exact />
-                    )}
-                    <Redirect to='/home' />
-                </Switch>
-            </>
-
-        );
-    }
-    else {
-        return (
-            <>
-                <Navbar />
-                <Switch>
-                    {publicRoute.map((route) =>
-                        <Route key={route.path} component={route.component} path={route.path} exact />
-                    )}
-                    <Redirect to='/login' />
-                </Switch>
-            </>
-        );
-    }
+    return (
+        <>
+            <Navbar />
+            <Switch>
+                {route.map((route)=> 
+                    <Route key={route.path} component={route.component} path={route.path} exact/>
+                )}
+                <Redirect to='/' />
+            </Switch>
+        </>
+    );
 
 
 }

@@ -2,10 +2,19 @@ const Calendar = require('../models/CalendarModel')
 const db = require('../models/db')
 const jwt = require('jsonwebtoken')
 const message = require("nodemailer");
-const e = require('express')
+const holidatapi = require('holidayapi')
+const axios = require('axios')
 
 class CalendarController {
     async getAllCalendars(req, res) {
+        const key = '95f64d70-ba88-407c-bde4-209a2fe935e4'
+        let countrycode = await axios.get('https://extreme-ip-lookup.com/json/?key=awe7Q4z4MM6zY58o7et3')
+        const holidayApi = new holidatapi.HolidayAPI({ key });
+        const holidays = await holidayApi.holidays({
+          country: countrycode.data.countryCode,
+          year: '2021',
+        })
+        console.log(holidays.holidays.length);
         await Calendar.getAllCalendar().then(resp => {
             if (resp[0].length > 0) {
                 return res.status(200).json({ message: "Take all calendars", result: resp[0] })
@@ -21,9 +30,9 @@ class CalendarController {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
-        const { title } = req.body
+        const { title, description } = req.body
         let calendar_id;
-        if (!title || title.length > 50) {
+        if (!title || title.length > 50 || !description || description.length > 255) {
             return res.status(404).json({ message: "Check your title" })
         }
         else {
@@ -33,7 +42,7 @@ class CalendarController {
                 }
                 else {
                     // console.log(title, decoded_id)
-                    Calendar.createCalendar(title, decoded_id).then(resp => {
+                    Calendar.createCalendar(title, description, decoded_id).then(resp => {
                         if (resp[0].affectedRows > 0) {
                             calendar_id = resp[0].insertId
                             db.execute(`INSERT INTO calendar_users (calendar_id, user_id) VALUES ('${calendar_id}','${decoded_id}')`).then(resp => {

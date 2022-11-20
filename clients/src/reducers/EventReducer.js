@@ -16,6 +16,8 @@ export const EventReducer = (event = initialState, action) => {
             return {...event, events:action.payload}
         case 'createEvent': 
             return {...event, events:action.payload}
+        case 'shareEvent':
+            return {...event, events:action.payload}
         case 'deleteEvent': 
             return {...event, events:action.payload}
         default:

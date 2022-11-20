@@ -48,6 +48,7 @@ const EventComponent = (props) => {
             <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
                     event = {currentEvent}
+                    calendar_id ={calendar_id}
                 />
             </EventModal>
             <ul>
@@ -75,6 +76,7 @@ const EventComponent = (props) => {
                            color:'red',
                         }}>{call}</b> : <><div 
                             style={{width: "fit-content", height: "fit-content"}}
+                            className= {style.Numbers}
                             onClick={(e) =>{
                                 e.stopPropagation();
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)

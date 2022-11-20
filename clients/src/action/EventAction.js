@@ -1,4 +1,4 @@
-import { createevent, getEventId, getEvents, getLatestEvents } from "../api/EventApi";
+import { createevent, getEventId, getEvents, getLatestEvents, shareEvent } from "../api/EventApi";
 
 export const getAllEventByCalendar = (calendar_id) => async(dispatch) => {
     try {
@@ -57,6 +57,18 @@ export const SortByType = (calendar_id, category) => async(dispatch) => {
             })
             console.log(sorted);
             return dispatch({type:'sortbyType', payload:sorted})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const ShareEvent = (event_id, user_id, calendar_id) => async(dispatch) => {
+    try {
+        const {data} = await shareEvent(event_id, user_id)
+        if (data.message === "Confiramtion was sent") {
+            const Data = await getEvents(calendar_id)
+            return dispatch({type:'shareEvent', payload: Data.data.result})
         }
     } catch (error) {
         console.log(error);
