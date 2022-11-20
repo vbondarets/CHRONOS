@@ -63,14 +63,12 @@ const EventComponent = (props) => {
                             key={index}
                             onClick={ (e) => {
                                 e.stopPropagation()
-                                console.log(value_of_calendar[index]);
                                 setDate(value_of_calendar[index]);
                                 setModal(true);
                             }}
                         >{value_of_calendar[index] === dayNow ? <b onClick={ (e) => 
                             {
                                 e.stopPropagation();
-                                console.log(value_of_calendar[index])
                                 // e.stopPropagation();
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
                             }} style={{
@@ -79,14 +77,11 @@ const EventComponent = (props) => {
                             style={{width: "fit-content", height: "fit-content"}}
                             onClick={(e) =>{
                                 e.stopPropagation();
-                                console.log(value_of_calendar[index])
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
                              }}
                             >{call}</div></>}
                             {AllEvents.map((event, indx) => {
-                                console.log(moment(event.start_At).format('HH:mm'));
                                 if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
-                                    console.log(event.time);
                                     return (
                                         <p 
                                             style = {{backgroundColor:event.color, color:'white', borderRadius:'10px'}} 
@@ -94,7 +89,6 @@ const EventComponent = (props) => {
                                             key={event.id}
                                             onClick = {(e) => {
                                                 e.stopPropagation()
-                                                console.log(AllEvents[indx].event_id)
                                                 
                                                 setCurrentEvent(AllEvents[indx]);
                                                 setEventModal(true)

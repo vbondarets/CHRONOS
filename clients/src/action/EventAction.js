@@ -38,3 +38,27 @@ export const CreateEvent = (title, description, type, color, start_at, end_at, c
         console.log(error);
     }
 }
+
+export const SortByType = (calendar_id, category) => async(dispatch) => {
+    try {
+        const {data} = await getEvents(calendar_id)
+        console.log(calendar_id);
+        console.log(category);
+        const sorted = []
+        const events = data.result
+        if (category === 'all') {
+            return dispatch({type:'sortbyType', payload:events})    
+        }
+        else {
+            events.map ((ev, indx) => {
+                if (ev.type === category) {
+                    sorted.push(events[indx])
+                }
+            })
+            console.log(sorted);
+            return dispatch({type:'sortbyType', payload:sorted})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
