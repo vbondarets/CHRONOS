@@ -61,14 +61,28 @@ const EventComponent = (props) => {
                         <li 
                             value = {value_of_calendar[index]} 
                             key={index}
-                            onClick={ e => {
+                            onClick={ (e) => {
+                                e.stopPropagation()
                                 console.log(value_of_calendar[index]);
                                 setDate(value_of_calendar[index]);
                                 setModal(true);
                             }}
-                        >{value_of_calendar[index] === dayNow ? <b onClick={ () => {history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)}} style={{
+                        >{value_of_calendar[index] === dayNow ? <b onClick={ (e) => 
+                            {
+                                e.stopPropagation();
+                                console.log(value_of_calendar[index])
+                                // e.stopPropagation();
+                                history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
+                            }} style={{
                            color:'red',
-                        }}>{call}</b> : <>{call}</>}
+                        }}>{call}</b> : <><div 
+                            style={{width: "fit-content", height: "fit-content"}}
+                            onClick={(e) =>{
+                                e.stopPropagation();
+                                console.log(value_of_calendar[index])
+                                history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
+                             }}
+                            >{call}</div></>}
                             {AllEvents.map((event, indx) => {
                                 console.log(moment(event.start_At).format('HH:mm'));
                                 if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {

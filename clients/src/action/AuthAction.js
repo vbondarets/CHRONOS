@@ -28,12 +28,12 @@ export const loginUser = (login,password,email, callback, setStatus) => async (d
     }
 }
 
-export const tokenConfirm = (token, password) => async(dispatch) => {
+export const tokenConfirm = (token, password, callback) => async(dispatch) => {
     try {
         const {data} = await resetToken(token, password)
         console.log(data);
         if (data.message === 'Your password was changed') {
-            alert('Your password was changed')
+            callback('Your password was changed')
             
             return dispatch ({type:'tokenconfirm', payload:'Ok'})
         }

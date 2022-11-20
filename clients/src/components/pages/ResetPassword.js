@@ -9,6 +9,12 @@ const ResetPassword = () => {
     const dispatch = useDispatch()
     let [email, setEmail] = useState('')
     let [index, setIndex] = useState(0)
+    const [message, setMessage] = useState('');
+
+    const setError = (text) =>{
+        setMessage(text)
+        setTimeout(() => setMessage(''), 2000)
+    }
 
     return (
         <div className={style.divResetPassword}>
@@ -20,9 +26,10 @@ const ResetPassword = () => {
                 onChange={ e => setEmail(e.target.value)} />
             </p>
             <a onClick={()=>{history.push("/login")}}>Remember login?</a>
+            <h4>{message}</h4>
             <button onClick={ () => {
                 setIndex(1)
-                dispatch(Reset_Password(email))
+                dispatch(Reset_Password(email, setError))
             }
             }>Reset Password</button>
             {index === 1 ? <p className={style.sendEmailP}>Mail was send. Check your email</p> : <></>}

@@ -8,6 +8,12 @@ const TokenReset = () => {
     const {confirm_token} = useParams()
     const dispatch = useDispatch()
     let [password, setPassword] = useState('')
+    const [message, setMessage] = useState('');
+
+    const setError = (text) =>{
+        setMessage(text)
+        setTimeout(() => setMessage(''), 2000)
+    }
     const history = useHistory()
     return (
         <div className={style.ConfirmPasswordDiv}>
@@ -18,7 +24,8 @@ const TokenReset = () => {
                 placeholder="Enter new password"
                 onChange={ e => setPassword(e.target.value)} />
             </p>
-            <button onClick={ () => {dispatch(tokenConfirm(confirm_token, password))
+            <h4>{message}</h4>
+            <button onClick={ () => {dispatch(tokenConfirm(confirm_token, password, setError))
                                     history.push('/login')
                                     }}>Reset Password</button>
         </div>
