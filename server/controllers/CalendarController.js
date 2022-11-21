@@ -33,12 +33,8 @@ class CalendarController {
         const decoded_id = decoded.id
         const { title, description } = req.body
         let calendar_id;
-<<<<<<< HEAD
-        if (!title || title.length > 50) {
-            
-=======
+
         if (!title || title.length > 50 || !description || description.length > 255) {
->>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
             return res.status(404).json({ message: "Check your title" })
         }
         else {
