@@ -1,4 +1,4 @@
-import { createevent, getEventId, getEvents, getLatestEvents } from "../api/EventApi";
+import { createevent, getEventId, getEvents, getLatestEvents, updateEvent } from "../api/EventApi";
 
 export const getAllEventByCalendar = (calendar_id) => async(dispatch) => {
     try {
@@ -33,6 +33,17 @@ export const CreateEvent = (title, description, type, color, start_at, end_at, c
         if (data.result.affectedRows > 0) {
             const Data = await getEvents(calendar_id)
             return dispatch({type:'createEvent', payload: Data.data.result})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const UpdateEvent = (calendar_id, event_id, body) => async(dispatch) => {
+    try {
+        const {data} = await updateEvent(calendar_id, event_id, body)
+        if (data.message === "event was updated") {
+            const Data = await getEvents(calendar_id)
+            return dispatch({type:'updateEvent', payload: Data.data.result})
         }
     } catch (error) {
         console.log(error);

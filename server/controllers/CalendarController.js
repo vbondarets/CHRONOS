@@ -18,12 +18,14 @@ class CalendarController {
     }
 
     async createCalendar(req, res) {
+        console.log("tut")
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
         const { title } = req.body
         let calendar_id;
         if (!title || title.length > 50) {
+            
             return res.status(404).json({ message: "Check your title" })
         }
         else {
@@ -64,7 +66,7 @@ class CalendarController {
             return res.status(403).json({ message: "Unauthorized" })
         }
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
-        console.log(calendar_id)
+        // console.log(calendar_id)
         const decoded_id = decoded.id
         await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id} AND author_id=${decoded_id}`).then(resp => {
             if (resp[0].length > 0) {
@@ -177,8 +179,8 @@ class CalendarController {
     async deleteUserFromCalendar(req, res) {
         const {user_id, calendar_id} = req.params
         
-        console.log(user_id);
-        console.log(calendar_id);
+        // console.log(user_id);
+        // console.log(calendar_id);
         if (!user_id || !calendar_id) {
             return res.status(404).json({ message: "Something went wrong" })
         }

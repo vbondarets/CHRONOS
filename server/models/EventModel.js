@@ -1,3 +1,4 @@
+const { end } = require('./db')
 const db = require('./db')
 
 class EventModel {
@@ -46,6 +47,9 @@ class EventModel {
     }
     updateEventType(type, event_id) {
         return db.execute(`UPDATE event SET type='${type}' WHERE id=${event_id}`)
+    }
+    updateEventTime(start_at, end_at, event_id) {
+        return db.execute(`UPDATE event SET start_At='${start_at.split('T')[0] + " " + start_at.split('T')[1].split(':')[0] + ":" + start_at.split('T')[1].split(':')[1]}', end_At='${end_at.split('T')[0] + " " + end_at.split('T')[1].split(':')[0] + ":" + (parseInt(end_at.split('T')[1].split(':')[1]) + 5)}' WHERE id=${event_id}`)
     }
     deleteUserFromEvent(user_id, event_id) {
         return db.execute(`DELETE FROM event_users WHERE user_id = ${user_id} AND event_id = ${event_id}` )

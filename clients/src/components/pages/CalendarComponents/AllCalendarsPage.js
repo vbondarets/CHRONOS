@@ -52,7 +52,7 @@ const AllCalendarsPage = () => {
                     {AllCalendars.map( calendars => {
                         return(
                         <>
-                            <ShareCalendarModal visible={visible} setVisible = {setVisible}>
+                            <ShareCalendarModal visible={visible} setVisible = {setVisible} key={calendars.id + "_modal"}>
                                 <ShareCalendarForm calendar_id={calendarid} />
                             </ShareCalendarModal>
                             <div className={style.Content} key={calendars.id}>

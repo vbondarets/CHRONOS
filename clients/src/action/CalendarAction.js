@@ -1,5 +1,5 @@
+import { useHistory } from "react-router-dom";
 import { CalendarById, createCalendar, deleteCalendar, SharingCalendar, SubmitSharing } from "../api/CalendarApi";
-
 
 export const getCalendarsById = (user_id) => async(dispatch) => {
     try {
@@ -45,6 +45,8 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
 }
 
 export const createCalendarByUser = (title, user_id) => async(dispatch) => {
+    // const history = useHistory();
+    console.log("tut") 
     try {
         const {data} = await createCalendar(title)
         if (data.result.affectedRows > 0) {

@@ -40,6 +40,10 @@ export const route = [
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true
     }
+    // ,
+    // {
+    //     path:'/share', component:SubmitSharingCalendar, exact:true
+    // }
 ]
 export const privateRoute = [
     {
@@ -73,6 +77,9 @@ export const publicRoute = [
     },
     {
         path:`/reset-password/:confirm_token`, component: TokenReset, exact:true
+    },
+    {
+        path:'/share/:token', component:SubmitSharingCalendar, exact:true
     }
 ]
 

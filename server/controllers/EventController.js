@@ -206,55 +206,104 @@ class Event_Controller {
     }
     
     async UpdateEvent(req,res) {
-        const {title, description, color, type} = req.body
+        const {title, description, color, type, start_at, end_at} = req.body
         const {event_id, calendar_id} = req.params
-        
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
 
         await db.execute(`SELECT * from event WHERE author_id = ${decoded_id} AND id=${event_id} AND calendar_id = ${calendar_id}`).then(resp => {
             if (resp[0].length === 1) {
-                if (title) {
+                console.log(title, description, type, color, start_at)
+                if (title && description && type && color && start_at) {
                     Event.updateEventTitle(title, event_id).then(resp => {
                         if (resp[0].affectedRows > 0) {
-                            return res.status(200).json({message:"Title was updated", result:resp[0]})
+                            // return res.status(200).json({message:"Title was updated", result:resp[0]})
+                            Event.updateEventDescription(description,event_id).then(resp => {
+                                if (resp[0].affectedRows > 0) {
+                                    // return res.status(200).json({message:"Description was updated", result:resp[0]})
+                                    Event.updateEventType(type, event_id).then(resp => {
+                                        if (resp[0].affectedRows > 0) {
+                                            if (color) {
+                                                Event.updateEventColor(color,event_id).then(resp => {
+                                                    if (resp[0].affectedRows > 0) {
+                                                        // return res.status(200).json({message:"Color was updated", result:resp[0]})
+                                                        Event.updateEventTime(start_at, end_at, event_id).then(resp => {
+                                                            if (resp[0].affectedRows > 0) {
+                                                                return res.status(200).json({message:"Event was updated"})
+                                                            }
+                                                            else {
+                                                                return res.status(404).json({message:"Something went wrong"})
+                                                            }
+                                                        })
+                                                    }
+                                                    else {
+                                                        return res.status(404).json({message:"Something went wrong"})
+                                                    }
+                                                })
+                                            }
+                                            // return res.status(200).json({message:"Type was updated", result:resp[0]})
+                                        }
+                                        else {
+                                            return res.status(404).json({message:"Something went wrong"})
+                                        }
+                                    })
+                                }
+                                else {
+                                    return res.status(404).json({message:"Something went wrong"})
+                                }
+                            })
                         }
                         else {
                             return res.status(404).json({message:"Something went wrong"})
                         }
                     })
                 }
-                if (description) {
-                    Event.updateEventDescription(description,event_id).then(resp => {
-                        if (resp[0].affectedRows > 0) {
-                            return res.status(200).json({message:"Description was updated", result:resp[0]})
-                        }
-                        else {
-                            return res.status(404).json({message:"Something went wrong"})
-                        }
-                    })
+                else {
+                    return res.status(409).json({message:"No data sended"})
                 }
-                if (type) {
-                    Event.updateEventType(type, event_id).then(resp => {
-                        if (resp[0].affectedRows > 0) {
-                            return res.status(200).json({message:"Type was updated", result:resp[0]})
-                        }
-                        else {
-                            return res.status(404).json({message:"Something went wrong"})
-                        }
-                    })
-                }
-                if (color) {
-                    Event.updateEventColor(color,event_id).then(resp => {
-                        if (resp[0].affectedRows > 0) {
-                            return res.status(200).json({message:"Color was updated", result:resp[0]})
-                        }
-                        else {
-                            return res.status(404).json({message:"Something went wrong"})
-                        }
-                    })
-                }
+                // if (description) {
+                //     Event.updateEventDescription(description,event_id).then(resp => {
+                //         if (resp[0].affectedRows > 0) {
+                //             // return res.status(200).json({message:"Description was updated", result:resp[0]})
+                //         }
+                //         else {
+                //             return res.status(404).json({message:"Something went wrong"})
+                //         }
+                //     })
+                // }
+                // if (type) {
+                //     Event.updateEventType(type, event_id).then(resp => {
+                //         if (resp[0].affectedRows > 0) {
+                //             // return res.status(200).json({message:"Type was updated", result:resp[0]})
+                //         }
+                //         else {
+                //             return res.status(404).json({message:"Something went wrong"})
+                //         }
+                //     })
+                // }
+                // if (color) {
+                //     Event.updateEventColor(color,event_id).then(resp => {
+                //         if (resp[0].affectedRows > 0) {
+                //             // return res.status(200).json({message:"Color was updated", result:resp[0]})
+                //         }
+                //         else {
+                //             return res.status(404).json({message:"Something went wrong"})
+                //         }
+                //     })
+                // }
+                // if (start_at) {
+                //     Event.updateEventTime(start_at, end_at, event_id).then(resp => {
+                //         if (resp[0].affectedRows > 0) {
+                //             // return res.status(200).json({message:"Color was updated", result:resp[0]})
+                //         }
+                //         else {
+                //             return res.status(404).json({message:"Something went wrong"})
+                //         }
+                //     })
+                // }
+                // console.log("updated")
+                // return res.status(200).json({message:"event was updated"})
             }
             else {
                 return res.status(404).json({message:"Its not your event"})

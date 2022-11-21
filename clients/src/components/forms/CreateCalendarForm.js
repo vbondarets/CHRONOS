@@ -14,6 +14,7 @@ const CreateCalendarForm = ({user_id}) => {
                 placeholder="Enter title of calendar"
                 onChange={ e => setTitle(e.target.value)} />
             <MyButton onClick = { () => {
+                // console.log("tut") 
                 dispatch(createCalendarByUser(title, user_id))
             }}>Create Calendar</MyButton>
         </form>

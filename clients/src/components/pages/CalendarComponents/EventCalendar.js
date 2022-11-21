@@ -1,5 +1,6 @@
 import moment from "moment";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import EventForm from "../../forms/EventForm";
@@ -26,7 +27,7 @@ const EventComponent = (props) => {
     const [eventModal, setEventModal] = useState(false);
     const [date, setDate] = useState(false);
     let [currentEvent, setCurrentEvent] = useState()
-
+    const [isCalendarId, setIsCalendarId] = useState();
     if (currentEvent === undefined) {
         currentEvent =[]
     }
@@ -35,6 +36,10 @@ const EventComponent = (props) => {
         value_of_calendar.push(day.format('YYYY-MM-DD'))
         day.add(1,'day')
     }
+    useEffect(() => {
+        setIsCalendarId(calendar_id)
+        
+    }, [calendar_id])
     
     const dayNow = now.format('YYYY-MM-DD')
     return (
@@ -43,11 +48,14 @@ const EventComponent = (props) => {
                 <EventForm 
                     date={date}
                     calendar_id = {calendar_id}
+                    setVisible={setModal}
                 />
             </MyModal>
             <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
                     event = {currentEvent}
+                    calendar_id = {isCalendarId}
+                    setVisible={setEventModal}
                 />
             </EventModal>
             <ul>

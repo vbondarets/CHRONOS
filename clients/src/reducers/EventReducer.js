@@ -16,6 +16,8 @@ export const EventReducer = (event = initialState, action) => {
             return {...event, events:action.payload}
         case 'deleteEvent': 
             return {...event, events:action.payload}
+        case 'updateEvent': 
+            return {...event, events:action.payload}
         default:
             return event
     }

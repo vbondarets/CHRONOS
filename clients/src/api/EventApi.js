@@ -18,3 +18,4 @@ export const createevent = (title, description, type, color, start_at, end_at, c
 api.post(`http://127.0.0.1:3001/api/event/${calendar_id}`, {title: title, description: description, type: type, color: color, start_at:start_at, end_at: end_at})
 
 export const deleteEvent = (calendar_id, event_id) => api.delete(`http://127.0.0.1:3001/api/event/${calendar_id}/delete/${event_id}`)
+export const updateEvent = (calendar_id, event_id, body) => api.patch(`http://127.0.0.1:3001/api/event/${calendar_id}/update/${event_id}`, {...body})
