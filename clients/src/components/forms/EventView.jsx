@@ -5,6 +5,9 @@ import jwt_decode from 'jwt-decode'
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import MyModal from '../UI/MyModal/MyModal';
+import ShareCalendarModal from '../UI/MyModal/ShareCalendarModal';
+import ShareEventForm from './ShareEventForm';
 
 import { SketchPicker, ChromePicker } from 'react-color';
 import { CreateEvent, DeleteEvent, UpdateEvent } from '../../action/EventAction';
@@ -19,6 +22,7 @@ import MyInput from '../UI/input/MyInput';
 import MySelect from '../UI/select/MySelect';
 import MyButton from '../UI/button/MyButton';
 
+<<<<<<< HEAD
 
 const EventView = ({ event, setVisible, calendar_id }) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -33,6 +37,11 @@ const EventView = ({ event, setVisible, calendar_id }) => {
     const [categories, setCatigories] = useState(['arrangement', 'reminder', 'task']);
 
     const auth = useSelector(state => state.Auth)
+=======
+const EventView= ({ event,calendar_id }) => {
+    const auth = useSelector(state=>state.Auth)
+    const [visible, setVisible] = useState(false)
+>>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
     const tokenn = auth.token
     let user_id, decode;
     const dispatch = useDispatch()
@@ -88,6 +97,7 @@ const EventView = ({ event, setVisible, calendar_id }) => {
         event = []
     }
     else {
+<<<<<<< HEAD
         // console.log(event);
         return (
             <div>
@@ -240,6 +250,31 @@ const EventView = ({ event, setVisible, calendar_id }) => {
 
             </div>
 
+=======
+        return (
+            <div>
+                <ShareCalendarModal visible={visible} setVisible = {setVisible}>
+                    <ShareEventForm event_id={event.event_id} calendar_id={calendar_id} />
+                </ShareCalendarModal>
+                <form>
+                    <h1 style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>Event {event.user_id === user_id ? <div><ShareIcon onClick = {() => setVisible(true)} /> <DeleteIcon /> <EditIcon /></div> : <></>}</h1>
+                    <p>Author: {event.user_id}</p>    
+                    <p>Title: {event.title}</p>  
+                    <p>Description: {event.description}</p>
+                    <p>Type: {event.type}</p>
+                    <p>Date: {moment(event.start_At).format('YYYY-MM-DD')}</p>
+                    {event.type === 'arrangement' ? 
+                    <>
+                        <p>Started: {moment(event.start_At).format('HH:mm')}</p>
+                        <p>Finished: {moment(event.end_At).format('HH:mm')}</p>
+                    </> 
+                    : 
+                    <>
+                        <p>Time: {moment(event.start_At).format('HH:mm')}</p>
+                    </>}
+                </form>
+            </div>
+>>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
         )
     }
 }

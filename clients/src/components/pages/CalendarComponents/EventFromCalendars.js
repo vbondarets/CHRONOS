@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EventComponent from "./EventCalendar";
 import MonthComponent from "./MonthComponent";
 import moment from 'moment'
-import { getAllEventByCalendar } from "../../../action/EventAction";
+import { getAllEventByCalendar, SortByType } from "../../../action/EventAction";
 import style from '../../style/CalendarStyle.module.css'
 import { useHistory, useParams } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -33,6 +33,17 @@ const EventPage = () => {
         <div className={style.mainContainer}>
             <div className={style.container_of_Calendar}>
             <button className={style.createBuuton} onClick = { () => {history.push(`/calendar/${calendar_id}/create_event`)}}>Create event <AddCircleIcon /></button>
+            <div onChange={ e => dispatch(SortByType(calendar_id, e.target.value))}>
+                <p>Choose category:</p>
+                <input type ='radio' name = 'category' id = 'all' value = 'all' />
+                <label htmlFor='all'>All Events</label>
+                <input type ='radio' name = 'category' id = 'arrangement' value = 'arrangement' />
+                <label htmlFor='arrangement'>Arrangement</label>
+                <input type ='radio' name = 'category' id = 'task' value = 'task' />
+                <label htmlFor='task'>Task</label>
+                <input type ='radio' name = 'category' id = 'reminder' value = 'reminder' />
+                <label htmlFor='reminder'>Reminder</label>
+            </div>
                 <MonthComponent
                     setMonths ={setMonths}
                     setNow = {setNow}

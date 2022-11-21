@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS calendar (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     author_id INT,
     title VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL,
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 ); 
 

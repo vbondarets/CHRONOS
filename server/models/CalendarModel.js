@@ -10,8 +10,8 @@ class Calendar {
         return db.execute(`SELECT * FROM calendar;`)
     }
 
-    createCalendar(title, user_id) {
-        return db.execute(`INSERT INTO calendar (title, author_id) VALUES ('${title}', '${user_id}')`)
+    createCalendar(title, description, user_id) {
+        return db.execute(`INSERT INTO calendar (title, author_id, description) VALUES ('${title}', '${user_id}', '${description}')`)
     }
     shareCalendar(calendar_id, user_id) {
         return db.execute(`INSERT INTO calendar_users (calendar_id, user_id) VALUES ('${calendar_id}','${user_id}')`)

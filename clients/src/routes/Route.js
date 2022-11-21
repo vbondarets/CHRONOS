@@ -81,5 +81,6 @@ export const publicRoute = [
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true
     }
+
 ]
 

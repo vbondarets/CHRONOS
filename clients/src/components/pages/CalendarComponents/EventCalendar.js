@@ -54,8 +54,12 @@ const EventComponent = (props) => {
             <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
                     event = {currentEvent}
+<<<<<<< HEAD
                     calendar_id = {isCalendarId}
                     setVisible={setEventModal}
+=======
+                    calendar_id ={calendar_id}
+>>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
                 />
             </EventModal>
             <ul>
@@ -71,30 +75,26 @@ const EventComponent = (props) => {
                             key={index}
                             onClick={ (e) => {
                                 e.stopPropagation()
-                                console.log(value_of_calendar[index]);
                                 setDate(value_of_calendar[index]);
                                 setModal(true);
                             }}
                         >{value_of_calendar[index] === dayNow ? <b onClick={ (e) => 
                             {
                                 e.stopPropagation();
-                                console.log(value_of_calendar[index])
                                 // e.stopPropagation();
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
                             }} style={{
                            color:'red',
                         }}>{call}</b> : <><div 
                             style={{width: "fit-content", height: "fit-content"}}
+                            className= {style.Numbers}
                             onClick={(e) =>{
                                 e.stopPropagation();
-                                console.log(value_of_calendar[index])
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
                              }}
                             >{call}</div></>}
                             {AllEvents.map((event, indx) => {
-                                console.log(moment(event.start_At).format('HH:mm'));
                                 if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
-                                    console.log(event.time);
                                     return (
                                         <p 
                                             style = {{backgroundColor:event.color, color:'white', borderRadius:'10px'}} 
@@ -102,7 +102,6 @@ const EventComponent = (props) => {
                                             key={event.id}
                                             onClick = {(e) => {
                                                 e.stopPropagation()
-                                                console.log(AllEvents[indx].event_id)
                                                 
                                                 setCurrentEvent(AllEvents[indx]);
                                                 setEventModal(true)

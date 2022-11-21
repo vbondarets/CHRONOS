@@ -44,11 +44,15 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
     }
 }
 
+<<<<<<< HEAD
 export const createCalendarByUser = (title, user_id) => async(dispatch) => {
     // const history = useHistory();
     console.log("tut") 
+=======
+export const createCalendarByUser = (title, user_id, description) => async(dispatch) => {
+>>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
     try {
-        const {data} = await createCalendar(title)
+        const {data} = await createCalendar(title, description)
         if (data.result.affectedRows > 0) {
             try {
                 const Data = await CalendarById(user_id);

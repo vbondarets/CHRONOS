@@ -3,13 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllEventByCalendar } from "../../../action/EventAction";
+import EventView from "../../forms/EventView";
 import style from '../../style/DayPageStyle.module.css'
+import MyModal from "../../UI/MyModal/MyModal";
 
 
 const DayPage = () => {
     const {day, calendar_id} = useParams()
     const event = useSelector(state => state.Event)
     const dispatch = useDispatch()
+    const [visisble, setVisible] = useState(false)
+    const [currentEvent, setCurrentEvent] = useState('')
 
     useEffect( () => {
         dispatch(getAllEventByCalendar(calendar_id))
@@ -71,9 +75,15 @@ const DayPage = () => {
     for (let index = 0; index < 24; index++){
         value_of_bigTime.push(`${day} ${bigtime}`)
     }
+
     console.log(value_of_date);
     return(
         <div className={style.Container}>
+            <MyModal visible={visisble} setVisible={setVisible}>
+                <EventView
+                    event={currentEvent}
+                />
+            </MyModal>
             <table style={{width:'100%'}}>
                 <tbody>
                 {bigtime.map( (date, index) => {
@@ -85,7 +95,12 @@ const DayPage = () => {
                                     <tr className={style.Grid} key={indx}>
                                         {AllEvent.map((ev) => {
                                             if (moment(ev.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index][indx]) {
-                                                return(<td  style={{backgroundColor:ev.color, width:'3%', padding:'5px', color:'white', textAlign:'center'}} key={ev.id}>{ev.title}</td>)
+                                                return(<td onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setCurrentEvent(ev)
+                                                            setVisible(true)
+                                                        }}
+                                                    style={{backgroundColor:ev.color, width:'3%', padding:'5px', color:'white', textAlign:'center'}} key={ev.id}>{ev.title}</td>)
                                             }
                                             else {
                                                 return(<td style={{display:'none'}}></td>)
