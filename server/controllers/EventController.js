@@ -2,9 +2,8 @@ const Event = require('../models/EventModel')
 const jwt = require('jsonwebtoken')
 const db = require('../models/db')
 const message = require("nodemailer")
+const moment = require('moment')
 const userModel = require('../models/userModel')
-const e = require('express')
-const { end } = require('../models/db')
 require('dotenv').config()
 
 function jwtGenerator(event_id, direction_id, author_id){
@@ -59,6 +58,7 @@ class Event_Controller {
     }
     async createEvent(req, res) {
         const {title, description, type, color,start_at, end_at} = req.body
+        console.log(req.body);
         const {calendar_id} = req.params
         const token = req.headers.authorization.split(' ')[1];
         // console.log(token)
@@ -104,8 +104,9 @@ class Event_Controller {
         }
         const decoded_id = decoded.id
         console.log(decoded_id);
+        const date = moment().format('YYYY-MM-DD')
         if (decoded_id == user_id) {
-            await Event.getLatestEventForUser(user_id).then(resp => {
+            await Event.getLatestEventForUser(user_id,date).then(resp => {
                 if (resp[0].length > 0) {
                     return res.status(200).json({message:"Take your events", result:resp[0]})
                 }
@@ -154,9 +155,7 @@ class Event_Controller {
                             from: 'eestfoo@gmail.com',
                             to: resp[0].email,
                             subject: 'Share event',
-                            text:`Dear ${resp[0].full_name}, 
-                                User, ${decoded.login} wanna share with you event.
-                                If u wanna to take this event, please click on this link "http://localhost:3000/event/share/confirm/${token}"`
+                            text:`Dear ${resp[0].full_name},\nUser, ${decoded.login} wanna share with you event.\nIf u wanna to take this event, please click on this link "http://localhost:3000/event/share/confirm/${token}"`
                         };
                         
                         transporter.sendMail(mailOptions, function(error, info){
@@ -208,102 +207,56 @@ class Event_Controller {
     async UpdateEvent(req,res) {
         const {title, description, color, type, start_at, end_at} = req.body
         const {event_id, calendar_id} = req.params
+        
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
 
         await db.execute(`SELECT * from event WHERE author_id = ${decoded_id} AND id=${event_id} AND calendar_id = ${calendar_id}`).then(resp => {
             if (resp[0].length === 1) {
-                console.log(title, description, type, color, start_at)
-                if (title && description && type && color && start_at) {
+                if (title) {
                     Event.updateEventTitle(title, event_id).then(resp => {
                         if (resp[0].affectedRows > 0) {
-                            // return res.status(200).json({message:"Title was updated", result:resp[0]})
-                            Event.updateEventDescription(description,event_id).then(resp => {
-                                if (resp[0].affectedRows > 0) {
-                                    // return res.status(200).json({message:"Description was updated", result:resp[0]})
-                                    Event.updateEventType(type, event_id).then(resp => {
-                                        if (resp[0].affectedRows > 0) {
-                                            if (color) {
-                                                Event.updateEventColor(color,event_id).then(resp => {
-                                                    if (resp[0].affectedRows > 0) {
-                                                        // return res.status(200).json({message:"Color was updated", result:resp[0]})
-                                                        Event.updateEventTime(start_at, end_at, event_id).then(resp => {
-                                                            if (resp[0].affectedRows > 0) {
-                                                                return res.status(200).json({message:"Event was updated"})
-                                                            }
-                                                            else {
-                                                                return res.status(404).json({message:"Something went wrong"})
-                                                            }
-                                                        })
-                                                    }
-                                                    else {
-                                                        return res.status(404).json({message:"Something went wrong"})
-                                                    }
-                                                })
-                                            }
-                                            // return res.status(200).json({message:"Type was updated", result:resp[0]})
-                                        }
-                                        else {
-                                            return res.status(404).json({message:"Something went wrong"})
-                                        }
-                                    })
-                                }
-                                else {
-                                    return res.status(404).json({message:"Something went wrong"})
-                                }
-                            })
+                            return res.status(200).json({message:"Title was updated", result:resp[0]})
                         }
                         else {
                             return res.status(404).json({message:"Something went wrong"})
                         }
                     })
                 }
-                else {
-                    return res.status(409).json({message:"No data sended"})
+                if (description) {
+                    Event.updateEventDescription(description,event_id).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Description was updated", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({message:"Something went wrong"})
+                        }
+                    })
                 }
-                // if (description) {
-                //     Event.updateEventDescription(description,event_id).then(resp => {
-                //         if (resp[0].affectedRows > 0) {
-                //             // return res.status(200).json({message:"Description was updated", result:resp[0]})
-                //         }
-                //         else {
-                //             return res.status(404).json({message:"Something went wrong"})
-                //         }
-                //     })
-                // }
-                // if (type) {
-                //     Event.updateEventType(type, event_id).then(resp => {
-                //         if (resp[0].affectedRows > 0) {
-                //             // return res.status(200).json({message:"Type was updated", result:resp[0]})
-                //         }
-                //         else {
-                //             return res.status(404).json({message:"Something went wrong"})
-                //         }
-                //     })
-                // }
-                // if (color) {
-                //     Event.updateEventColor(color,event_id).then(resp => {
-                //         if (resp[0].affectedRows > 0) {
-                //             // return res.status(200).json({message:"Color was updated", result:resp[0]})
-                //         }
-                //         else {
-                //             return res.status(404).json({message:"Something went wrong"})
-                //         }
-                //     })
-                // }
-                // if (start_at) {
-                //     Event.updateEventTime(start_at, end_at, event_id).then(resp => {
-                //         if (resp[0].affectedRows > 0) {
-                //             // return res.status(200).json({message:"Color was updated", result:resp[0]})
-                //         }
-                //         else {
-                //             return res.status(404).json({message:"Something went wrong"})
-                //         }
-                //     })
-                // }
-                // console.log("updated")
-                // return res.status(200).json({message:"event was updated"})
+                if (type) {
+                    Event.updateEventType(type, event_id).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Type was updated", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({message:"Something went wrong"})
+                        }
+                    })
+                }
+                if (color) {
+                    Event.updateEventColor(color,event_id).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Color was updated", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({message:"Something went wrong"})
+                        }
+                    })
+                }
+                if (start_at && end_at) {
+                    db.execute(`UPDATE event SET start_At='${start_at}', end_At = '${end_at}' WHERE id=${event_id}`)
+                }
             }
             else {
                 return res.status(404).json({message:"Its not your event"})
@@ -331,7 +284,7 @@ class Event_Controller {
                         })
                     }
                     else {
-                        db.execute(`DELETE FROM event WHERE author_id = ${decoded_id} AND id=${event_id} AND calendar_id = ${calendar_id} `).then(resp => {
+                        db.execute(`DELETE FROM event_users WHERE author_id = ${decoded_id} AND id=${event_id} AND calendar_id = ${calendar_id} `).then(resp => {
                             if (resp[0].affectedRows > 0) {
                                 return res.status(200).json({message:"Event was deleted"})
                             }
@@ -343,7 +296,22 @@ class Event_Controller {
                 })
             }
             else {
-                return res.status(404).json({message:"Its not your event"})
+                console.log('kola');
+                db.execute(`SELECT * FROM event_users WHERE user_id=${decoded_id} AND calendar_id=${calendar_id} AND event_id=${event_id}`).then(resp => {
+                    if (resp[0].length > 0) {
+                        db.execute(`DELETE FROM event_users WHERE user_id=${decoded_id} AND event_id=${event_id} AND calendar_id=${calendar_id}`).then(resp => {
+                            if (resp[0].affectedRows > 0) {
+                                return res.status(200).json({message:"Event was deleted"})
+                            }
+                            else {
+                                return res.status(404).json({message:"Something went wrong"})
+                            }
+                        })
+                    }
+                    else {
+                        return res.status(404).json({message:"Something went wrong"})
+                    }
+                })
             }
         })
     }

@@ -7,6 +7,7 @@ import LoginPage from "../components/pages/LoginPage";
 import RegisterPage from "../components/pages/RegisterPage";
 import ResetPassword from "../components/pages/ResetPassword";
 import SubmitSharingCalendar from "../components/pages/Sharing/SubmitCalendarSharing";
+import SubmitShareEventPage from "../components/pages/Sharing/SubmitShareEvent";
 import TokenReset from "../components/pages/TokenConfirm";
 
 export const route = [
@@ -39,6 +40,9 @@ export const route = [
     },
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true
+    },
+    {
+        path:'/event/share/confirm/:token', component: SubmitShareEventPage, exact:true
     }
     // ,
     // {
@@ -63,6 +67,9 @@ export const privateRoute = [
     },
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true
+    },
+    {
+        path:'/event/share/confirm/:token', component: SubmitShareEventPage, exact:true
     }
 ]
 export const publicRoute = [
@@ -80,7 +87,9 @@ export const publicRoute = [
     },
     {
         path:'/share/:token', component:SubmitSharingCalendar, exact:true
+    },
+    {
+        path:'/event/share/confirm/:token', component: SubmitShareEventPage, exact:true
     }
-
 ]
 

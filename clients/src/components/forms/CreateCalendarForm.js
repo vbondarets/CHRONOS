@@ -20,12 +20,7 @@ const CreateCalendarForm = ({user_id}) => {
                 onChange={ e => setDescription(e.target.value)} 
             />
             <MyButton onClick = { () => {
-<<<<<<< HEAD
-                // console.log("tut") 
-                dispatch(createCalendarByUser(title, user_id))
-=======
                 dispatch(createCalendarByUser(title, user_id, description))
->>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
             }}>Create Calendar</MyButton>
         </form>
     )

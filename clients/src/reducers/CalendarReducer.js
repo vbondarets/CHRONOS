@@ -15,6 +15,8 @@ export const CalendarReducer = (calendar = IntialState, action) => {
             return {...calendar, submitSharingCalendar: action.payload}
         case 'createCalendar':
             return {...calendar, AllCalendarsById: action.payload}
+        case 'updareCalendar':
+            return {...calendar, AllCalendarsById: action.payload}
         case 'deleteCalendar':
             return {...calendar, AllCalendarsById:action.payload}
         default:

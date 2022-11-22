@@ -7,14 +7,6 @@ const axios = require('axios')
 
 class CalendarController {
     async getAllCalendars(req, res) {
-        const key = '95f64d70-ba88-407c-bde4-209a2fe935e4'
-        let countrycode = await axios.get('https://extreme-ip-lookup.com/json/?key=awe7Q4z4MM6zY58o7et3')
-        const holidayApi = new holidatapi.HolidayAPI({ key });
-        const holidays = await holidayApi.holidays({
-          country: countrycode.data.countryCode,
-          year: '2021',
-        })
-        console.log(holidays.holidays.length);
         await Calendar.getAllCalendar().then(resp => {
             if (resp[0].length > 0) {
                 return res.status(200).json({ message: "Take all calendars", result: resp[0] })
@@ -24,6 +16,41 @@ class CalendarController {
                 return res.status(404).json({ message: "There are no calendars" })
             }
         }).catch(err => { return res.status(404).json({ Eror: err.message }) })
+    }
+
+    async updateCalendar(req,res) {
+        const {calendar_id} = req.params
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+        const {title, description} = req.body
+        await db.execute(`SELECT * FROM calendar WHERE author_id =${decoded_id} AND id =${calendar_id}`).then( resp => {
+            if (resp[0].length === 1) {
+                if (title) {
+                    db.execute(`UPDATE calendar set title = '${title}' WHERE id =${calendar_id} AND author_id = ${decoded_id}`).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Title was updated", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({ message: "Something went wrong when update calendar" })
+                        }
+                    })
+                }
+                if (description) {
+                    db.execute(`UPDATE calendar set description = '${description}' WHERE id =${calendar_id} AND author_id = ${decoded_id}`).then(resp => {
+                        if (resp[0].affectedRows > 0) {
+                            return res.status(200).json({message:"Description was updated", result:resp[0]})
+                        }
+                        else {
+                            return res.status(404).json({ message: "Something went wrong when update calendar" })
+                        }
+                    })
+                }
+            }
+            else {
+                return res.status(404).json({message:'You havent rights for tthis calendar'})
+            }
+        })
     }
 
     async createCalendar(req, res) {

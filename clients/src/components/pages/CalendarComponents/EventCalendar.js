@@ -54,12 +54,8 @@ const EventComponent = (props) => {
             <EventModal visible={eventModal} setVisible={setEventModal}>
                 <EventView
                     event = {currentEvent}
-<<<<<<< HEAD
                     calendar_id = {isCalendarId}
-                    setVisible={setEventModal}
-=======
-                    calendar_id ={calendar_id}
->>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
+
                 />
             </EventModal>
             <ul>

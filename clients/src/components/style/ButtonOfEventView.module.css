@@ -1,0 +1,24 @@
+.ShareIcon {
+    padding: 3px;
+    cursor:pointer;
+}
+.ShareIcon:hover {
+    background-color: #f2f2f2;
+    border-radius: 50%;
+}
+.DeleteIcon {
+    cursor:pointer;
+    padding: 3px;
+}
+.DeleteIcon:hover {
+    background-color: #f2f2f2;
+    border-radius: 50%;
+}
+.EditIcon {
+    cursor:pointer;
+    padding: 3px;
+}
+.EditIcon:hover {
+    background-color: #f2f2f2;
+    border-radius: 50%;
+}

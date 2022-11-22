@@ -11,11 +11,18 @@ import style from '../../style/CalendarsPage.module.css'
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import EditCalendarForm from "../../forms/EditForm";
+import EventModal from "../../UI/MyModal/ModalForEvent";
+
+
 
 const AllCalendarsPage = () => {
     const Calendars = useSelector(state => state.Calendar)
     const auth = useSelector(state=>state.Auth)
     const [calendarid, setCalendar_id] = useState()
+    const [edit, setEdit] = useState(false)
+    const [currentCalendar, setCurrent] = useState('')
     //check user_id
     const tokenn = auth.token
     let decode, user_id,login
@@ -31,7 +38,6 @@ const AllCalendarsPage = () => {
 
     const shareButton = (e) => {
         setVisible(true)
-        console.log("hyu");
     }
     const [visible, setVisible] = useState(false)
     const [vis, setVis] = useState(false)
@@ -48,9 +54,16 @@ const AllCalendarsPage = () => {
             <MyModal visible={vis} setVisible ={setVis}>
                 <CreateCalendarForm user_id={user_id}/>
             </MyModal>
+            <EventModal visible={edit} setVisible={setEdit}>
+                <EditCalendarForm user_id={user_id} 
+                    calendar_id={currentCalendar.calendar_id} 
+                    title={currentCalendar.title} 
+                    description={currentCalendar.description} 
+                />
+            </EventModal>
                 <button className={style.createButton} onClick={ () => setVis(true)}>Create Calendar  <AddIcon /></button>
                 <div className={style.Container} >
-                    {AllCalendars.map( calendars => {
+                    {AllCalendars.map( (calendars, index) => {
                         return(
                         <>
                             <ShareCalendarModal visible={visible} setVisible = {setVisible} key={calendars.id + "_modal"}>
@@ -63,10 +76,14 @@ const AllCalendarsPage = () => {
                                     {calendars.author_id === user_id ? <><button className={style.shareButton} onClick={ (e) => {
                                         setCalendar_id(calendars.id)
                                         setVisible(true)
-                                    }}>Share <ShareIcon /></button></> : <></>}
+                                    }}>Share <ShareIcon /></button>
+                                        <button className={style.shareButton} onClick = { () => {
+                                            setCurrent(AllCalendars[index])
+                                            setEdit(true)
+                                        }}>Edit <EditIcon /></button>
+                                    </> : <></>}
                                     {calendars.title === `${login} Calendar` || calendars.title === `National Calendar ${login}` ? <></> :
                                         <button className={style.deleteButton} onClick={ () => {
-                                            console.log(calendars.id);
                                             dispatch(DeleteUserCalendar(user_id, calendars.id))
                                         }}>Delete <DeleteIcon /></button>
                                     }

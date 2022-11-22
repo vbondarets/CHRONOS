@@ -1,0 +1,21 @@
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.h1OFHomePage {
+    text-align: center;
+    color: #4717f6;
+    border-bottom: 1px solid black;
+}
+.Event {
+    display: flexbox;
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+.Event p {
+    font-size: 17px;
+}

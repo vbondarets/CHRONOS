@@ -1,10 +1,22 @@
 import { useHistory } from "react-router-dom";
-import { CalendarById, createCalendar, deleteCalendar, SharingCalendar, SubmitSharing } from "../api/CalendarApi";
+import { CalendarById, createCalendar, deleteCalendar, SharingCalendar, SubmitSharing, updateCalendar } from "../api/CalendarApi";
 
 export const getCalendarsById = (user_id) => async(dispatch) => {
     try {
         const {data} = await CalendarById(user_id);
         return dispatch({type:'getCalendarById', payload:data.result})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const UpdateCalendar = (user_id, calendar_id, title, description) => async(dispatch) => {
+    try {
+        const {data} = await updateCalendar(calendar_id,title, description)
+        if (data.result.affectedRows > 0) {
+            const Data = await CalendarById(user_id);
+            return dispatch({type:'updateCalendar', payload:Data.data.result})
+        }
     } catch (error) {
         console.log(error);
     }
@@ -44,13 +56,8 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
     }
 }
 
-<<<<<<< HEAD
-export const createCalendarByUser = (title, user_id) => async(dispatch) => {
-    // const history = useHistory();
-    console.log("tut") 
-=======
+
 export const createCalendarByUser = (title, user_id, description) => async(dispatch) => {
->>>>>>> 800ecb92e83b8cf2277f61c65507f7f5292d7afd
     try {
         const {data} = await createCalendar(title, description)
         if (data.result.affectedRows > 0) {

@@ -23,10 +23,10 @@ class EventModel {
                             WHERE event_users.calendar_id=${calendar_id};`)
     }
 
-    getLatestEventForUser(user_id) {
+    getLatestEventForUser(user_id, time) {
         return db.execute(`SELECT * FROM event_users
                             LEFT JOIN event ON event_users.event_id = event.id
-                            WHERE event_users.user_id = ${user_id} LIMIT 5`)
+                            WHERE event_users.user_id = ${user_id} AND event.start_At > '${time}' ORDER BY event.start_At LIMIT 10`)
     }
     createEvent(title, author_id, description, type, color, calendar_id, start_at, end_at) {
         return db.execute(`INSERT INTO event (title, author_id,description, type, color, calendar_id, start_at, end_at) 

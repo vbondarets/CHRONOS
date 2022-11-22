@@ -21,6 +21,7 @@
         "express-session": "^1.17.3",
         "holidayapi": "^6.0.1",
         "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.4",
         "mysql2": "^2.3.3",
         "nodemailer": "^6.7.8",
         "nodemon": "^2.0.20",
