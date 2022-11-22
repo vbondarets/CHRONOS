@@ -16,7 +16,7 @@ const CreateCalendarForm = ({user_id}) => {
                 onChange={ e => setTitle(e.target.value)} 
             />
             <MyInput value={description}
-                placeholder="Enter description of calendar"
+                placeholder="Enter description of the calendar"
                 onChange={ e => setDescription(e.target.value)} 
             />
             <MyButton onClick = { () => {

@@ -14,6 +14,6 @@ export const CalendarById = (user_id) => api.get(`http://127.0.0.1:3001/api/cale
 export const SubmitSharing = (token) => api.get(`http://127.0.0.1:3001/api/calendar/share/${token}`)
 export const SharingCalendar = (user_id, calendar_id) => api.post(`http://127.0.0.1:3001/api/calendar/share/${calendar_id}`, {user_id})
 export const updateCalendar = (calendar_id, title, description) => api.patch(`http://127.0.0.1:3001/api/calendar/update/${calendar_id}`, {title:title, description:description})
-
+export const hideCalendar = (calendar_id) => api.post(`http://127.0.0.1:3001/api/calendar/hide/${calendar_id}`)
 export const createCalendar = (title ,description) => api.post(`http://127.0.0.1:3001/api/calendar/`, {title:title, description: description})
 export const deleteCalendar = (user_id, calendar_id) => api.delete(`http://127.0.0.1:3001/api/calendar/delete/${calendar_id}/${user_id}`)

@@ -53,6 +53,28 @@ class CalendarController {
         })
     }
 
+    async HideCalendar(req, res) {
+        const {calendar_id} = req.params
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+        await db.execute(`SELECT * FROM calendar WHERE author_id = ${decoded_id} AND id = ${calendar_id}`).then( resp => {
+            if (resp[0].length === 1) {
+                db.execute(`DELETE FROM calendar_users WHERE calendar_id = ${calendar_id} AND NOT user_id=${decoded_id}`).then( resp => {
+                    if (resp[0].affectedRows > 0) {
+                        return res.status(200).json({message:"You hide calendar", result:resp[0]})
+                    }
+                    else {
+                        return res.status(404).json({message:"Something went wrong. Probably this calendar was already hidden"})
+                    }
+                })
+            }
+            else {
+                return res.status(404).json({message:"You havent rights for this calendar"})
+            }
+        })
+    }
+
     async createCalendar(req, res) {
         console.log("tut")
         const token = req.headers.authorization.split(' ')[1];

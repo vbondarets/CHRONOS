@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteUserCalendar, getCalendarsById } from "../../../action/CalendarAction";
+import { DeleteUserCalendar, getCalendarsById, HideCalendar } from "../../../action/CalendarAction";
 import jwt_decode from 'jwt-decode'
 import { useHistory } from "react-router-dom";
 import MyModal from "../../UI/MyModal/MyModal";
@@ -14,7 +14,10 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import EditCalendarForm from "../../forms/EditForm";
 import EventModal from "../../UI/MyModal/ModalForEvent";
-
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Stack from '@mui/material/Stack';
 
 
 const AllCalendarsPage = () => {
@@ -73,19 +76,40 @@ const AllCalendarsPage = () => {
                                 <div className={style.Calendar}>
                                     <p onClick={ () => history.push(`/calendar/${calendars.id}`)}>Title: {calendars.title}</p>
                                     <p>Description: {calendars.description}</p>
-                                    {calendars.author_id === user_id ? <><button className={style.shareButton} onClick={ (e) => {
-                                        setCalendar_id(calendars.id)
-                                        setVisible(true)
-                                    }}>Share <ShareIcon /></button>
-                                        <button className={style.shareButton} onClick = { () => {
-                                            setCurrent(AllCalendars[index])
-                                            setEdit(true)
-                                        }}>Edit <EditIcon /></button>
-                                    </> : <></>}
-                                    {calendars.title === `${login} Calendar` || calendars.title === `National Calendar ${login}` ? <></> :
+                                    {calendars.author_id === user_id ? 
+                                    <>
+                                        {calendars.title === `${login} Calendar` || calendars.title === `National Calendar ${login}` ? 
+                                        <>
+                                        
+                                        </>
+                                        :
+                                        <>
+                                            <button className={style.shareButton} onClick={ (e) => {
+                                                setCalendar_id(calendars.id)
+                                                setVisible(true)
+                                                }}>Share <ShareIcon />
+                                            </button>
+                                            <button className={style.shareButton} onClick = { () => {
+                                                setCurrent(AllCalendars[index])
+                                                setEdit(true)
+                                            }}>Edit <EditIcon /></button>
+                                            <button className={style.deleteButton} onClick = { () => {
+                                                dispatch(HideCalendar(calendars.calendar_id, user_id))
+                                            }}>
+                                                Hide <VisibilityOffIcon />
+                                            </button>
+                                            <button className={style.deleteButton} onClick={ () => {
+                                                dispatch(DeleteUserCalendar(user_id, calendars.id))
+                                            }}>Delete <DeleteIcon /></button>
+                                        </>
+                                        }
+                                    </> 
+                                    : 
+                                    <>
                                         <button className={style.deleteButton} onClick={ () => {
                                             dispatch(DeleteUserCalendar(user_id, calendars.id))
                                         }}>Delete <DeleteIcon /></button>
+                                    </>
                                     }
                                 </div>
                             </div>

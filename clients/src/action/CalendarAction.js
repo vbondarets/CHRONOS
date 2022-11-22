@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { CalendarById, createCalendar, deleteCalendar, SharingCalendar, SubmitSharing, updateCalendar } from "../api/CalendarApi";
+import { CalendarById, createCalendar, deleteCalendar, hideCalendar, SharingCalendar, SubmitSharing, updateCalendar } from "../api/CalendarApi";
 
 export const getCalendarsById = (user_id) => async(dispatch) => {
     try {
@@ -56,6 +56,17 @@ export const DeleteUserCalendar = (user_id, calendar_id) => async(dispatch) => {
     }
 }
 
+export const HideCalendar = (calendar_id, user_id) => async(dispatch) => {
+    try {
+        const {data} = await hideCalendar(calendar_id)
+        if (data.result.affectedRows > 0) {
+            const Data = await CalendarById(user_id)
+            return dispatch({type:'hideCalendar', payload:Data.data.result})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const createCalendarByUser = (title, user_id, description) => async(dispatch) => {
     try {
