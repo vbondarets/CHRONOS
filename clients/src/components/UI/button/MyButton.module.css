@@ -1,4 +1,5 @@
 .myBtn{
+    margin-top: 2%;
     padding: 5px 15px;
     font-size: 15px;
     color: black;
@@ -27,5 +28,4 @@
 .ShareButton:hover {
     background-color: #a515d1;
     color: white;
-    
 }

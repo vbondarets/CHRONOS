@@ -10,6 +10,7 @@ router.get('/:user_id', CalendarController.getCalendarById)
 router.get('/share/:token',CalendarController.shareCalendarToUser)
 router.post('/share/:calendar_id',CalendarController.shareCalendar)
 router.post(`/hide/:calendar_id`, CalendarController.HideCalendar)
+router.post('/import/:calendar_id', CalendarController.importCalendar)
 router.patch(`/update/:calendar_id`, CalendarController.updateCalendar)
 router.delete('/delete/:calendar_id/:user_id', CalendarController.deleteUserFromCalendar)
 

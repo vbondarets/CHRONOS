@@ -1,3 +1,4 @@
+import ImportPage from "../components/pages/AdditionPages/ImportPage";
 import AllCalendarsPage from "../components/pages/CalendarComponents/AllCalendarsPage";
 import Create_Page from "../components/pages/CalendarComponents/CreateEventComponent";
 import EventPage from "../components/pages/CalendarComponents/EventFromCalendars";
@@ -43,6 +44,9 @@ export const route = [
     },
     {
         path:'/event/share/confirm/:token', component: SubmitShareEventPage, exact:true
+    }, 
+    {
+        path:'/import', component:ImportPage, exact:true
     }
     // ,
     // {

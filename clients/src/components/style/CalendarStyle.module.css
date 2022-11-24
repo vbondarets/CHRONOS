@@ -50,10 +50,11 @@
 }
 .Event {
   cursor: pointer;
+  padding: 7px;
   transition: .3s ease-in-out;
 }
 .Event:hover {
-  transform: scale(1.05);
+  color: #a515d1;
 }
 .Arrows {
   transition: 0.5s ease-in-out;

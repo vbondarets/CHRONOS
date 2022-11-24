@@ -53,6 +53,35 @@ class CalendarController {
         })
     }
 
+    async importCalendar (req,res) {
+        const {calendar_id} = req.params
+        const token = req.headers.authorization.split(' ')[1]
+        const decode = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const user_id = decode.id
+        await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id}`).then(resp => {
+            if (resp[0].length > 0) {
+                db.execute(`SELECT * FROM calendar_users WHERE calendar_id =${calendar_id} AND user_id=${user_id}`).then( resp => {
+                    if (resp[0].length > 0) {
+                        return res.status(200).json({message:'Yoy already import this calendar'})
+                    }
+                    else {
+                        db.execute(`INSERT INTO calendar_users (user_id, calendar_id) VALUES ('${user_id}', '${calendar_id}')`).then(resp => {
+                            if (resp[0].affectedRows > 0) {
+                                return res.status(200).json({message:'You successfully import calendar', result: resp[0]})
+                            }
+                            else {
+                                return res.status(404).json({message:'Something went wrong while import calendar'})
+                            }
+                        })
+                    }
+                })
+            }
+            else {
+                return res.status(404).json({message:'No such calendar'})
+            }
+        })
+    }
+
     async HideCalendar(req, res) {
         const {calendar_id} = req.params
         const token = req.headers.authorization.split(' ')[1];

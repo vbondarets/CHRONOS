@@ -13,7 +13,7 @@ const EditCalendarForm = ({user_id, calendar_id, title, description}) => {
     const dispatch = useDispatch()
     return (
         <form>
-            <h1>Edit {title}</h1>
+            <h1>Edit "{title}"</h1>
             <MyInput value={titlee}
                 placeholder="Enter new of calendar"
                 onChange={ e => setTitle(e.target.value)} 

@@ -46,6 +46,7 @@ const Navbar= () => {
                     <ul className={style.ulNavbar}> 
                         <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home<HomeIcon /></a></li>
                         <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar</a></li>
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/import")}}>Import</a></li>
                         <li className={style.liNavbarUser}><a className={style.aNavbar} onClick={() => {
                                                                 history.push(`/user/${user_id}`)
                                                             }}>

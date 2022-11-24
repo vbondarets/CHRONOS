@@ -93,12 +93,11 @@ const EventComponent = (props) => {
                                 if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
                                     return (
                                         <p 
-                                            style = {{backgroundColor:event.color, color:'white', borderRadius:'10px'}} 
+                                            style = {{backgroundColor:event.color, color:'white', borderRadius:'10px',borderColor:event.color}} 
                                             className = {style.Event} 
                                             key={event.id}
                                             onClick = {(e) => {
                                                 e.stopPropagation()
-                                                
                                                 setCurrentEvent(AllEvents[indx]);
                                                 setEventModal(true)
                                             }}

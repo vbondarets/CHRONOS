@@ -1,6 +1,6 @@
 {
   "name": "clients",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "proxy": "http://127.0.0.1:3001",
   "dependencies": {
@@ -25,6 +25,7 @@
     "react": "^18.2.0",
     "react-alert": "^7.0.3",
     "react-big-calendar": "^1.5.2",
+    "react-bootstrap": "^2.6.0",
     "react-calendar": "^4.0.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",

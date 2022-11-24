@@ -7,6 +7,8 @@ const IntialState = {
 
 export const CalendarReducer = (calendar = IntialState, action) => {
     switch (action.type) {
+        case 'getAllCalendar':
+            return {...calendar, allCalendars: action.payload}
         case 'getCalendarById':
             return {...calendar, AllCalendarsById:action.payload}
         case 'shareCalendar': 
@@ -14,6 +16,8 @@ export const CalendarReducer = (calendar = IntialState, action) => {
         case 'submitSharingCalendar': 
             return {...calendar, submitSharingCalendar: action.payload}
         case 'createCalendar':
+            return {...calendar, AllCalendarsById: action.payload}
+        case 'importCalendar':
             return {...calendar, AllCalendarsById: action.payload}
         case 'hideCalendar':
             return {...calendar, AllCalendarsById: action.payload}
