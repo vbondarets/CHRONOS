@@ -101,7 +101,6 @@ const EventComponent = (props) => {
                                                 setCurrentEvent(AllEvents[indx]);
                                                 setEventModal(true)
                                             }}
-                                            
                                         >
                                             {event.title}
                                         </p>

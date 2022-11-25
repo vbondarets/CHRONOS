@@ -8,9 +8,10 @@
   font-family: 'Konit', sans-serif;
 }
 .ulNavbar {
+
   font-weight: 900;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -21,8 +22,9 @@
   display: inline-block;
 }
 .liNavbarUser {
+  
   display: inline-block;
-  margin-left: 71%;
+  margin-left: 69%;
 }
 .liNavbarAdmin {
   display: inline-block;
@@ -42,6 +44,8 @@
   color: white;
 }
 .aNavbar {
+  border-radius: 20px;
+  margin-right: 2px;
   cursor: pointer;
   display:flex;
   align-items: center;

@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import HomeIcon from '@mui/icons-material/Home';
 import { Button } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const Navbar= () => {
     const history = useHistory()
@@ -44,9 +46,9 @@ const Navbar= () => {
             <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
                 <div >
                     <ul className={style.ulNavbar}> 
-                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home<HomeIcon /></a></li>
-                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar</a></li>
-                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/import")}}>Import</a></li>
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home <HomeIcon /></a></li>
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar <CalendarMonthIcon /></a></li>
+                        <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/import")}}>Import <DownloadIcon/></a></li>
                         <li className={style.liNavbarUser}><a className={style.aNavbar} onClick={() => {
                                                                 history.push(`/user/${user_id}`)
                                                             }}>
@@ -64,7 +66,7 @@ const Navbar= () => {
             <div>
                 <ul className={style.ulNavbar}>
                     <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home <HomeIcon /></a></li>
-                    <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/calendar")}}>Calendar</a></li>
+                    <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/login")}}>Calendar <CalendarMonthIcon /></a></li>
                     <li className={style.liNavbarRegister}><a className={style.aNavbar} onClick={()=>{history.push("/register")}}>Register</a></li>
                     <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/login")}}>Login</a></li>
                 </ul>
