@@ -8,6 +8,7 @@ import style from '../../style/DayPageStyle.module.css'
 import MyButton from "../../UI/button/MyButton";
 import MyModal from "../../UI/MyModal/MyModal";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const DayPage = () => {
@@ -93,19 +94,14 @@ const DayPage = () => {
                 />
             </MyModal>
             <div className={style.DayInfo}>
-                <MyButton
-                    style={{width: "fit-content"}}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        history.goBack()
-                        // console.log(history)
-                    }}
-                >
-                    <ArrowBackIosIcon/>
-                </MyButton>
-                <h3 style={{ margin: 0 }}>{months[moment().month()]}</h3>
-                <h3 style={{ margin: 0 }}>{moment().date()}</h3>
-                <h4 style={{ margin: 0 }}>{weekdays[moment().day()]}</h4>
+                <button className={style.createBuuton} onClick = { () => {history.push(`/calendar/${calendar_id}/create_event`)}}>Create event <AddCircleIcon /></button>
+                <button className={style.createBuuton}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            history.goBack()
+                        }}>
+                    Go Back <ArrowBackIosIcon /></button>
+                <h3 style={{ margin: 0, padding:'3px', color: "#4717f6"}}>{months[moment().month()]} {moment().date()} {weekdays[moment().day()]}</h3>
                 {
                     console.log(moment())
                 }

@@ -97,13 +97,13 @@ const EventComponent = (props) => {
                                     if(counter >= 4){
                                         if(counter === 4){
                                             return (
-                                                <h3
-                                                style={{cursor: "pointer"}}
+                                                <p
+                                                style={{cursor: "pointer", backgroundColor:'green', borderRadius:'10px', padding: "0px 5px", color:"white"}}
                                                 onClick={(e) =>{
                                                     e.stopPropagation();
                                                     history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
                                                 }}
-                                                >More ...</h3>
+                                                >More ...</p>
                                             )
                                         }
                                         else {

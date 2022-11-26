@@ -1,4 +1,5 @@
 const Calendar = require('../models/CalendarModel')
+require('dotenv').config()
 const db = require('../models/db')
 const jwt = require('jsonwebtoken')
 const message = require("nodemailer");
@@ -6,7 +7,44 @@ const holidatapi = require('holidayapi')
 const axios = require('axios')
 
 class CalendarController {
-    async getAllCalendars(req, res) {
+    async getAuthorOfCalendar(req, res) {
+        const {calendar_id} = req.params
+        await db.execute(`SELECT author_id FROM calendar WHERE id=${calendar_id}`).then(resp => {
+            if (resp[0].length > 0) {
+                return res.status(200).json({result:resp[0]})
+            }
+            else {
+                return res.status(404).json({message:'Something went wrong'})
+            }
+        })
+    }
+    async getAllUsersByCalendar(req, res) {
+        console.log("daun");
+        const {calendar_id} = req.params
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+        await db.execute(`SELECT * FROM calendar WHERE id=${calendar_id} AND author_id=${decoded_id}`).then(resp => {
+            if (resp[0].length === 1) {
+                console.log('daun');
+                db.execute(`SELECT * FROM calendar_users 
+                            LEFT JOIN users ON calendar_users.user_id = users.id
+                            WHERE calendar_users.calendar_id = ${calendar_id}`).then(resp => {
+                                if (resp[0].length > 0) {
+                                    console.log(resp[0]);
+                                    return res.status(200).json({message:'Take all users', result:resp[0]})
+                                }
+                                else {
+                                    return res.status(404).json({message:'Something went wrong'})
+                                }
+                            })
+            }
+            else {
+                return res.status(404).json({message:'You are not owner of this calendar'})
+            }
+        })
+    }
+    async getAllCalendars(req, res) { 
         await Calendar.getAllCalendar().then(resp => {
             if (resp[0].length > 0) {
                 return res.status(200).json({ message: "Take all calendars", result: resp[0] })
@@ -92,6 +130,28 @@ class CalendarController {
                 db.execute(`DELETE FROM calendar_users WHERE calendar_id = ${calendar_id} AND NOT user_id=${decoded_id}`).then( resp => {
                     if (resp[0].affectedRows > 0) {
                         return res.status(200).json({message:"You hide calendar", result:resp[0]})
+                    }
+                    else {
+                        return res.status(404).json({message:"Something went wrong. Probably this calendar was already hidden"})
+                    }
+                })
+            }
+            else {
+                return res.status(404).json({message:"You havent rights for this calendar"})
+            }
+        })
+    }
+
+    async deleteUserFromCalendarAccess (req, res) {
+        const {calendar_id, user_id} = req.params
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
+        const decoded_id = decoded.id
+        await db.execute(`SELECT * FROM calendar WHERE id = ${calendar_id} AND author_id=${decoded_id}`).then( resp => {
+            if (resp[0].length === 1) {
+                db.execute(`DELETE FROM calendar_users WHERE user_id = ${user_id} AND calendar_id =${calendar_id}`).then(resp => {
+                    if (resp[0].affectedRows > 0) {
+                        return res.status(200).json({result:resp[0]})
                     }
                     else {
                         return res.status(404).json({message:"Something went wrong. Probably this calendar was already hidden"})

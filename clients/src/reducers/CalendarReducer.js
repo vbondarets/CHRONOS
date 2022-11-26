@@ -2,7 +2,9 @@ const IntialState = {
     allCalendars:[],
     AllCalendarsById:[],
     sharingCalendar:[],
-    submitSharingCalendar: []
+    submitSharingCalendar: [],
+    allUsers:[],
+    author:[]
 }
 
 export const CalendarReducer = (calendar = IntialState, action) => {
@@ -11,6 +13,12 @@ export const CalendarReducer = (calendar = IntialState, action) => {
             return {...calendar, allCalendars: action.payload}
         case 'getCalendarById':
             return {...calendar, AllCalendarsById:action.payload}
+        case 'getUsersOnCalendar':
+            return {...calendar, allUsers: action.payload}
+        case 'getAuthor':
+            return {...calendar, author: action.payload}
+        
+        
         case 'shareCalendar': 
             return {...calendar, sharingCalendar:action.payload}
         case 'submitSharingCalendar': 
@@ -25,6 +33,8 @@ export const CalendarReducer = (calendar = IntialState, action) => {
             return {...calendar, AllCalendarsById: action.payload}
         case 'deleteCalendar':
             return {...calendar, AllCalendarsById:action.payload}
+        case 'deleteUser':
+            return {...calendar, allUsers: action.payload}
         default:
             return calendar;
     }
