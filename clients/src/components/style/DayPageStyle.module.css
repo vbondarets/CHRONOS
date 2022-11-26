@@ -1,9 +1,33 @@
 .Container {
     display: flex;
+    flex-direction: row;
 }
 .BigTime {
     padding: 5px;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     width: 3%;
+}
+.Event{
+    margin-left: 5px;
+    border-radius: 5px;
+    padding: 0px 5px;
+    width: 100px;
+    cursor: pointer;
+}
+.DayInfo{
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    
+}
+.Underline{
+    height: 40px;
+    position: absolute;
+    border-bottom: 1px dashed black;
+    width: 95%;
+    z-index: -1;
+}
+.Underline:hover{
+    background-color: rgba(0, 0, 0, 0.621);
 }

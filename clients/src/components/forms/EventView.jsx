@@ -19,7 +19,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 
-const EventView= ({ event,calendar_id }) => {
+const EventView= ({ event, calendar_id }) => {
     const auth = useSelector(state=>state.Auth)
     const [visible, setVisible] = useState(false)
     const [edit, setEdit] = useState(false)

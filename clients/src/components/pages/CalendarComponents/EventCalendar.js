@@ -64,7 +64,8 @@ const EventComponent = (props) => {
                         <li key={index} className={style.DaysName}>{index}</li>
                     )
                 })} 
-                {calendar.map( (call,index) => {        
+                {calendar.map( (call,index) => {     
+                    let counter = 0;   
                     return(
                         <li 
                             value = {value_of_calendar[index]} 
@@ -87,10 +88,28 @@ const EventComponent = (props) => {
                             onClick={(e) =>{
                                 e.stopPropagation();
                                 history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
-                             }}
+                            }}
                             >{call}</div></>}
+                            
                             {AllEvents.map((event, indx) => {
                                 if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
+                                    counter ++;
+                                    if(counter >= 4){
+                                        if(counter === 4){
+                                            return (
+                                                <h3
+                                                style={{cursor: "pointer"}}
+                                                onClick={(e) =>{
+                                                    e.stopPropagation();
+                                                    history.push(`/calendar/${calendar_id}/day/${value_of_calendar[index]}`)
+                                                }}
+                                                >More ...</h3>
+                                            )
+                                        }
+                                        else {
+                                            return;
+                                        }
+                                    }
                                     return (
                                         <p 
                                             style = {{backgroundColor:event.color, color:'white', borderRadius:'10px',borderColor:event.color}} 

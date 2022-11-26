@@ -1,11 +1,13 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getAllEventByCalendar } from "../../../action/EventAction";
 import EventView from "../../forms/EventView";
 import style from '../../style/DayPageStyle.module.css'
+import MyButton from "../../UI/button/MyButton";
 import MyModal from "../../UI/MyModal/MyModal";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
 const DayPage = () => {
@@ -15,6 +17,10 @@ const DayPage = () => {
     const [visisble, setVisible] = useState(false)
     const [currentEvent, setCurrentEvent] = useState('')
     const params = useParams();
+    const weekdays = moment()._locale._weekdays;
+    const months = moment()._locale._months;
+    const UserStore = useSelector(store => store.User)
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(getAllEventByCalendar(calendar_id))
@@ -79,24 +85,44 @@ const DayPage = () => {
 
     console.log(value_of_date);
     return (
-        <div className={style.Container}>
+        <div>
             <MyModal visible={visisble} setVisible={setVisible}>
                 <EventView
+                    calendar_id={currentEvent.calendar_id}
                     event={currentEvent}
                 />
             </MyModal>
-            <table style={{ width: 'fit-content', borderSpacing: 0
-         }}>
-                <tbody>
-                    {bigtime.map((date, index) => {
-                        return (
-                            <tr style={{ width: 'fit-content' }} value={value_of_bigTime[index]} key={index}>
-                                <td className={style.BigTime}>{date}</td>
-                                {time.map((tm, indx) => {
-                                    return (
-                                        <tr className={style.Grid} key={indx}>
-                                            {/* {console.log(value_of_date[index][indx])} */}
-                                            {/* {AllEvent.map((ev) => {
+            <div className={style.DayInfo}>
+                <MyButton
+                    style={{width: "fit-content"}}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        history.goBack()
+                        // console.log(history)
+                    }}
+                >
+                    <ArrowBackIosIcon/>
+                </MyButton>
+                <h3 style={{ margin: 0 }}>{months[moment().month()]}</h3>
+                <h3 style={{ margin: 0 }}>{moment().date()}</h3>
+                <h4 style={{ margin: 0 }}>{weekdays[moment().day()]}</h4>
+                {
+                    console.log(moment())
+                }
+            </div>
+            <div className={style.Container}>
+
+                <table style={{ width: 'fit-content', borderSpacing: 0 }}>
+                    <tbody>
+                        {bigtime.map((date, index) => {
+                            return (
+                                <tr style={{ width: 'fit-content', height: 40 }} value={value_of_bigTime[index]} key={index}>
+                                    <td className={style.BigTime}>{date}</td>
+                                    {time.map((tm, indx) => {
+                                        return (
+                                            <tr className={style.Grid} key={indx}>
+                                                {/* {console.log(value_of_date[index][indx])} */}
+                                                {/* {AllEvent.map((ev) => {
                                             if (moment(ev.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index][indx]) {
                                                 return(<td onClick={(e) => {
                                                             e.stopPropagation()
@@ -109,56 +135,80 @@ const DayPage = () => {
                                                 return(<td style={{display:'none'}}></td>)
                                             }
                                         })} */}
-                                        </tr>
-                                    )
-                                })}
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-            {AllEvent.map((event) => {
-                // console.log(moment(event.start_At).format('YYYY-MM-DD'))
-                // console.log(params)
-                if(moment(event.start_At).format('YYYY-MM-DD') === params.day){
-                    console.log(moment(event.start_At).format('HH'))
-                    let height = 24.5;
-                    let duration = 1;
-                    if(event.type === "arrangement"){
-                        // console.log(parseInt(moment(event.end_At).format('HH')) + "-" + parseInt(moment(event.start_At).format('HH')))
-                        duration = parseInt(moment(event.end_At).format('HH')) - parseInt(moment(event.start_At).format('HH'))
-                        // console.log("duration: " + duration)
-                        height = (height * duration) + ((parseInt(moment(event.end_At).format('HH')) - parseInt(moment(event.start_At).format('HH')) - 1) * 5)
-                    }
-                    return (
-                        <div onClick={(e) => {
-                                    e.stopPropagation()
-                                    setCurrentEvent(event)
-                                    setVisible(true)
+                                            </tr>
+                                        )
+                                    })}
+                                    <div className={style.Underline}></div>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+                {AllEvent.map((event) => {
+                    // console.log(moment(event.start_At).format('YYYY-MM-DD'))
+                    // console.log(params)
+                    if (moment(event.start_At).format('YYYY-MM-DD') === params.day) {
+                        
+                        let height = 35;
+                        let duration = 1;
+                        let margin = 0;
+                        if (parseInt(moment(event.start_At).format('mm')) >= 15) {
+                            margin = 10;
+                            if (parseInt(moment(event.start_At).format('mm')) >= 30) {
+                                margin = 20;
+                                if (parseInt(moment(event.start_At).format('mm')) >= 45) {
+                                    margin = 30;
+                                }
+                            }
+                        }
+
+                        // {console.log(parseInt(moment(event.start_At).format('mm')))}
+                        if (event.type === "arrangement") {
+                            // console.log(parseInt(moment(event.end_At).format('HH')) + "-" + parseInt(moment(event.start_At).format('HH')))
+
+                            duration = parseInt(moment(event.end_At).format('HH')) - parseInt(moment(event.start_At).format('HH'))
+                            // console.log("duration: " + duration)
+                            height = (height * duration) + ((parseInt(moment(event.end_At).format('HH')) - parseInt(moment(event.start_At).format('HH')) - 1) * 5)
+                        }
+                        return (
+                            <div onClick={(e) => {
+                                e.stopPropagation()
+                                setCurrentEvent(event)
+                                setVisible(true)
                             }}
-                            className={style.Event} 
-                            style={{ backgroundColor: event.color, paddingTop: 5, color: 'white', textAlign: 'center' , height: height, marginTop: parseInt(moment(event.start_At).format('HH')) * 29.5}} 
-                            key={event.id}
+                                className={style.Event}
+                                style={{ backgroundColor: event.color, paddingTop: 5, color: 'white', textAlign: 'center', height: height, marginTop: parseInt(moment(event.start_At).format('HH')) * 40 + margin }}
+                                key={event.id}
 
-                        >
-                            {event.title}
-                        </div>
+                            >
+                                <p style={{ margin: 0 }}>{event.title}</p>
+                                {duration > 1 &&
+                                    <p style={{ margin: 0 }}>Author: {UserStore.allUsers.map(el => {
+                                        if(el.id === event.author_id){
+                                            return el.login
+                                        }
+                                    })}</p>
+                                }
+                                
 
-                    )
-                }
+                            </div>
 
-                // if (moment(event.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index][indx]) {
-                //     return (<td onClick={(e) => {
-                //         e.stopPropagation()
-                //         setCurrentEvent(ev)
-                //         setVisible(true)
-                //     }}
-                //         style={{ backgroundColor: ev.color, width: '3%', padding: '5px', color: 'white', textAlign: 'center' }} key={ev.id}>{ev.title}</td>)
-                // }
-                // else {
-                //     return (<td style={{ display: 'none' }}></td>)
-                // }
-            })}
+                        )
+                    }
+
+                    // if (moment(event.start_At).format('YYYY-MM-DD HH:mm').toString() === value_of_date[index][indx]) {
+                    //     return (<td onClick={(e) => {
+                    //         e.stopPropagation()
+                    //         setCurrentEvent(ev)
+                    //         setVisible(true)
+                    //     }}
+                    //         style={{ backgroundColor: ev.color, width: '3%', padding: '5px', color: 'white', textAlign: 'center' }} key={ev.id}>{ev.title}</td>)
+                    // }
+                    // else {
+                    //     return (<td style={{ display: 'none' }}></td>)
+                    // }
+                })}
+            </div>
         </div>
     )
 }
