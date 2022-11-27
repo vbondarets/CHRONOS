@@ -7,7 +7,7 @@ import { ShareCalendar } from "../../action/CalendarAction";
 import jwt_decode from 'jwt-decode'
 import { ShareEvent } from "../../action/EventAction";
 
-const ShareEventForm = ({event_id, calendar_id}) => {
+const ShareEventForm = ({event_id, calendar_id, setVisiblity}) => {
     const UserStore = useSelector(store => store.User)
     const auth = useSelector(state=>state.Auth)
     const [message, setMessage] = useState(false)
@@ -44,13 +44,14 @@ const ShareEventForm = ({event_id, calendar_id}) => {
                             () => {
                                 dispatch(ShareEvent(event_id, users.id, calendar_id))
                                 setMessage(true)
+                                setVisiblity(false)
                             }
                         } className={style.ShareButton}></AddBoxIcon></p>
-                        {message === true ? <p style={{color:'green'}}>Invite was sent</p> : <></>}
                     </>
                     )
                 }
             })}
+            {message === true ? <p style={{color:'green'}}>Invite was sent</p> : <></>}
         </div>
     )
 }

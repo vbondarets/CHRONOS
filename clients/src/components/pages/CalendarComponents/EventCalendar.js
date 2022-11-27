@@ -10,7 +10,7 @@ import EventModal from "../../UI/MyModal/ModalForEvent";
 import MyModal from "../../UI/MyModal/MyModal";
 
 const EventComponent = (props) => {
-    const {now, AllEvents, calendar_id} = props
+    const {now, AllEvents, calendar_id, allCalendars} = props
     
     const history = useHistory()
     const now_for_lastday = now.clone()
@@ -26,7 +26,10 @@ const EventComponent = (props) => {
     const [modal, setModal] = useState(false);
     const [eventModal, setEventModal] = useState(false);
     const [date, setDate] = useState(false);
-    let [currentEvent, setCurrentEvent] = useState()
+    let [currentEvent, setCurrentEvent] = useState();
+    const [calendar_color, setCalendar_color] = useState();
+
+
     const [isCalendarId, setIsCalendarId] = useState();
     if (currentEvent === undefined) {
         currentEvent =[]
@@ -40,6 +43,13 @@ const EventComponent = (props) => {
         setIsCalendarId(calendar_id)
         
     }, [calendar_id])
+    useEffect(() => {
+        allCalendars.AllCalendarsById.map(element => {
+            if(element.id == calendar_id){
+                setCalendar_color(element.color);
+            }
+        })
+    }, [allCalendars])
     
     const dayNow = now.format('YYYY-MM-DD')
     return (
@@ -48,6 +58,7 @@ const EventComponent = (props) => {
                 <EventForm 
                     date={date}
                     calendar_id = {calendar_id}
+                    calendar_color = {calendar_color}
                     setVisible={setModal}
                 />
             </MyModal>
@@ -55,7 +66,7 @@ const EventComponent = (props) => {
                 <EventView
                     event = {currentEvent}
                     calendar_id = {isCalendarId}
-
+                    setVisiblity={setModal}
                 />
             </EventModal>
             <ul>
@@ -92,7 +103,8 @@ const EventComponent = (props) => {
                             >{call}</div></>}
                             
                             {AllEvents.map((event, indx) => {
-                                if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]) {
+                                if (moment(event.start_At).format('YYYY-MM-DD') === value_of_calendar[index]&& event.calendar_id == calendar_id ) {
+                                    // console.log(event)
                                     counter ++;
                                     if(counter >= 4){
                                         if(counter === 4){

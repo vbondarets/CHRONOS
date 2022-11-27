@@ -20,6 +20,6 @@ export const SharingCalendar = (user_id, calendar_id) => api.post(`http://127.0.
 export const updateCalendar = (calendar_id, title, description) => api.patch(`http://127.0.0.1:3001/api/calendar/update/${calendar_id}`, {title:title, description:description})
 export const hideCalendar = (calendar_id) => api.post(`http://127.0.0.1:3001/api/calendar/hide/${calendar_id}`)
 export const importcalendar = (calendar_id) => api.post(`http://127.0.0.1:3001/api/calendar/import/${calendar_id}`)
-export const createCalendar = (title ,description) => api.post(`http://127.0.0.1:3001/api/calendar/`, {title:title, description: description})
+export const createCalendar = (title ,description, color) => api.post(`http://127.0.0.1:3001/api/calendar/`, {title:title, description: description, color: color})
 export const deleteCalendar = (user_id, calendar_id) => api.delete(`http://127.0.0.1:3001/api/calendar/delete/${calendar_id}/${user_id}`)
 export const deleteAccess = (user_id, calendar_id) => api.delete(`http://127.0.0.1:3001/api/calendar/delete/${calendar_id}/user/${user_id}`)

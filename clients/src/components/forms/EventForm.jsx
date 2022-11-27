@@ -15,10 +15,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect } from 'react';
 
 
-const EventForm = ({ date, calendar_id, setVisible }) => {
+const EventForm = ({ date, calendar_id, setVisible, calendar_color }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [color, setColor] = useState('#4169e1');
+    const [color, setColor] = useState(calendar_color);
     const [time, setTime] = useState('00:00');
     const [time_end, setTime_end] = useState('00:00')
     const [errorMessage, setMessage] = useState('');
@@ -68,7 +68,7 @@ const EventForm = ({ date, calendar_id, setVisible }) => {
     useEffect(() => {
             setTitle('')
             setDescription('')
-            setColor("#4169e1")
+            setColor(calendar_color)
             setCategory('')
             setTime('00:00')
     }, [date])

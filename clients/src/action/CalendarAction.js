@@ -51,7 +51,7 @@ export const ImportCalendar = (calendar_id, user_id) => async(dispatch) => {
     }
 }
 
-export const UpdateCalendar = (user_id, calendar_id, title, description) => async(dispatch) => {
+export const UpdateCalendar = (user_id, calendar_id, title, description, setVisible) => async(dispatch) => {
     try {
         const {data} = await updateCalendar(calendar_id,title, description)
         if (data.result.affectedRows > 0) {
@@ -121,9 +121,9 @@ export const HideCalendar = (calendar_id, user_id) => async(dispatch) => {
     }
 }
 
-export const createCalendarByUser = (title, user_id, description) => async(dispatch) => {
+export const createCalendarByUser = (title, user_id, description, color) => async(dispatch) => {
     try {
-        const {data} = await createCalendar(title, description)
+        const {data} = await createCalendar(title, description, color)
         if (data.result.affectedRows > 0) {
             try {
                 const Data = await CalendarById(user_id);

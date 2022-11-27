@@ -88,7 +88,14 @@ const EventPage = () => {
                         now = {now}
                         AllEvents = {AllEvents}
                         calendar_id = {calendar_id}
+                        allCalendars = {calendar}
                     />
+                    
+                    {/* {console.log("color: +" + calendar.map(el =>{
+                        if(el.id === calendar_id){
+                            return el.color;
+                        }
+                    }))} */}
                 </div>  
             </div>
         )

@@ -95,7 +95,9 @@ class Authentication {
                                     else {return res.status(404).json({message:"Registration failed"})}
                                 })
                                 return res.status(200).json({message:"You were succesfully registered",result:token})}
-                            else {return res.status(404).json({message:"Registration failed"})}
+                            else {
+                                return res.status(404).json({message:"Registration failed"
+                            })}
                         }).catch(err=>{return res.status(404).json({Eror:err.message})})
                 }
             }).catch(err=>{return res.status(404).json({Eror:err.message})})

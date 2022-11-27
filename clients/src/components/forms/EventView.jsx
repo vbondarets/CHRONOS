@@ -19,7 +19,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 
-const EventView= ({ event, calendar_id }) => {
+const EventView= ({ event, calendar_id, setVisiblity }) => {
     const auth = useSelector(state=>state.Auth)
     const [visible, setVisible] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -62,8 +62,9 @@ const EventView= ({ event, calendar_id }) => {
     else {
         return (
             <div>
+                
                 <ShareCalendarModal visible={visible} setVisible = {setVisible}>
-                    <ShareEventForm event_id={event.event_id} calendar_id={calendar_id} />
+                    <ShareEventForm event_id={event.event_id} calendar_id={calendar_id} setVisiblity={setVisiblity} />
                 </ShareCalendarModal>
                 <form>
                     <h1 style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>Event {event.author_id === user_id ? 
@@ -75,6 +76,7 @@ const EventView= ({ event, calendar_id }) => {
                         <>
                             {event.user_id === user_id ? <DeleteIcon onClick = { () => {
                                 dispatch(DeleteEvent(event.event_id, calendar_id))
+                                setVisiblity(false)
                             }} className={style.DeleteIcon}/> : <></>}
                         </>
                     }
@@ -162,6 +164,8 @@ const EventView= ({ event, calendar_id }) => {
                                     setColor('')
                                     setTime(moment())
                                     setDate(moment())
+                                    setVisible(false)
+                                    setVisiblity(false)
                                 }
                                 else {
                                     const exact= `${exact_date} ${exact_time}:00`
@@ -173,6 +177,8 @@ const EventView= ({ event, calendar_id }) => {
                                     setColor('')
                                     setTime(moment())
                                     setDate(moment())
+                                    setVisible(false)
+                                    setVisiblity(false)
                                 }
                             }
                             }>Update Event</button>

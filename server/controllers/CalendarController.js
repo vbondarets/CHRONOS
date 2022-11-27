@@ -169,11 +169,11 @@ class CalendarController {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.SECRETKEY || 'KHPI')
         const decoded_id = decoded.id
-        const { title, description } = req.body
+        const { title, description, color } = req.body
         let calendar_id;
 
-        if (!title || title.length > 50 || !description || description.length > 255) {
-            return res.status(404).json({ message: "Check your title" })
+        if (!title || title.length > 50 || !description || description.length > 255 || !color) {
+            return res.status(404).json({ message: "Check your data" })
         }
         else {
             await db.execute(`SELECT * FROM calendar WHERE title='${title}'`).then(resp => {
@@ -182,7 +182,7 @@ class CalendarController {
                 }
                 else {
                     // console.log(title, decoded_id)
-                    Calendar.createCalendar(title, description, decoded_id).then(resp => {
+                    Calendar.createCalendar(title, description, decoded_id, color).then(resp => {
                         if (resp[0].affectedRows > 0) {
                             calendar_id = resp[0].insertId
                             db.execute(`INSERT INTO calendar_users (calendar_id, user_id) VALUES ('${calendar_id}','${decoded_id}')`).then(resp => {
