@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
 .h1Navbar {
-  margin-left: 44%;
-  margin-right: 44%;
+  
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #4717f6;
   font-family: 'Konit', sans-serif;
 }

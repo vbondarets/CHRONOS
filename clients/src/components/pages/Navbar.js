@@ -43,7 +43,7 @@ const Navbar= () => {
     return (
         isAuth ? 
         <>
-            <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
+            <h1 className={style.h1Navbar}><img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
                 <div >
                     <ul className={style.ulNavbar}> 
                         <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home <HomeIcon /></a></li>
@@ -62,7 +62,7 @@ const Navbar= () => {
         </>
         :
         <>
-            <h1 className={style.h1Navbar}>INSPACE<img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
+            <h1 className={style.h1Navbar}><img src="http://localhost:3001/avatar/logo.png" className ={style.Logo} alt="logo"></img></h1>
             <div>
                 <ul className={style.ulNavbar}>
                     <li className={style.liNavbar}><a className={style.aNavbar} onClick={()=>{history.push("/home")}}>Home <HomeIcon /></a></li>
